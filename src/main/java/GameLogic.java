@@ -15,13 +15,14 @@ public class GameLogic {
     
     static Scanner scanner = new Scanner(System.in);
     static Player player;
-    
+    public static boolean isRunning;
+
     
     //Get user input
     public static int getUserInput(String choiceString, int choicesNumber){
         int input;
         do{
-            System.out.println(choiceString);
+            System.out.print(choiceString);
             try{
                 input = Integer.parseInt(scanner.next());
             } 
@@ -35,11 +36,13 @@ public class GameLogic {
     }
     
     //Clear console log
+    /*
     public static void consoleClear(){
         for(int i = 0; i <10; i++){
             System.out.println();
         }
     }
+    */
     
     //Print specific separator number
     public static void separatorPrint(char separator, int n){
@@ -61,9 +64,9 @@ public class GameLogic {
     
     //Print title during the game
     public static void titlePrint(String title,char separator){
-        separatorPrint(separator,136);
-        System.out.print(title);
-        separatorPrint(separator,136);
+        separatorPrint(separator,title.length());
+        System.out.println(title);
+        separatorPrint(separator,title.length());
     }
     
     
@@ -79,13 +82,34 @@ public class GameLogic {
         String name;
         
         //Print title screen
-        consoleClear();
+        //consoleClear();
         headPrint("YNCREA RPG",'#');
         continueCommand();
         
+        //getting the player name
+        do{
+            //consoleClear();
+            titlePrint("What's your name?",'#');
+            name = scanner.next();
+            //asking the player if he wants to correct his choice
+            //consoleClear();
+            titlePrint("Your name is " + name + ". Is that correct?",'#');
+            System.out.println("(1) Yes!");
+            System.out.println("(2) No, I want to change my name.");
+            int input = getUserInput(">> " , 2);
+            if(input == 1)
+                    nameSet = true;
+        }while(!nameSet);
         
+        //create new player object with the name
+        player = new Player(name);
+
+        //start main game loop (next part)
+        // gameLoop();
     }
-        
+
+    
+
     
 }
 

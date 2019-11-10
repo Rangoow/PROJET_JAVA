@@ -44,15 +44,15 @@ public class Player extends Character{
         
         //let the player choose a trait of either skill path
         public void chooseTrait(){
-            GameLogic.consoleClear();
+            //GameLogic.consoleClear();
             GameLogic.titlePrint("Choose a trait : ",'#');
             System.out.println("(1)" + atkUpgrades[numAtkUpgrades]);
             System.out.println("(2)" + defUpgrades[numDefUpgrades]);
             //get the players choice:
-            GameLogic.consoleClear();
+            //GameLogic.consoleClear();
             //get the player choice
             int input = GameLogic.getUserInput(">> ",2);
-            GameLogic.consoleClear();
+            //GameLogic.consoleClear();
             //deal with both cases
             if (input == 1 ){
                 GameLogic.headPrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'#');

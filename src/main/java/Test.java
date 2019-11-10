@@ -11,7 +11,7 @@
 
 public class Test {
     public static void main(String[] args){
-        GameLogic.headPrint("YNCREA RPG");
+        GameLogic.headPrint("YNCREA RPG",'#');
         GameLogic.continueCommand();
         //GameLogic.consoleClear();
         int input = GameLogic.getUserInput("Please select 1, 2 or 3", 3);

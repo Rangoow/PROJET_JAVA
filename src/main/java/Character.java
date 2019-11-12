@@ -30,4 +30,25 @@ public abstract class Character {
         this.xp = 0;
         this.HP = maxHP;   
     }
+
+    
+    //getters
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    
+    
 }

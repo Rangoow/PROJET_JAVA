@@ -144,9 +144,9 @@ public class GameLogic {
     //printing out the most important information about the player character
 public static void characterInfo(){
 	titlePrint("CHARACTER INFO",'#');
-	System.out.println(player.name + "\tHP: " + player.hp + "/" + player.maxHp);
+	System.out.println(player.getName() + "\tHP: " + player.getHP() + "/" + player.getMaxHP());
 	separatorPrint('#',20);
-	System.out.println("XP: " + player.xp);
+	System.out.println("XP: " + player.getXp());
 	separatorPrint('#',20);
 		
 	//printing the chosen traits
@@ -159,7 +159,11 @@ public static void characterInfo(){
 	}
 		
 	continueCommand();
-    }
+}
+
+
+
+
 
         
 }

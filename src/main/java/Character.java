@@ -24,10 +24,10 @@ public abstract class Character {
     
     //Constructor
     
-    public Character(String name, int maxHP){
+    public Character(String name, int maxHP, int xp){
         this.name = name;
         this.maxHP = maxHP;
-        this.xp = 0;
+        this.xp = xp;
         this.HP = maxHP;   
     }
 

@@ -21,7 +21,7 @@ public class Player extends Character{
         //Player specific constructor
         public Player(String name){
             //calling super class constructor
-            super(name,100);
+            super(name,100,0);
             //Setting upgrade number to 0
             this.numAtkUpgrades = 0;
             this.numDefUpgrades = 0;
@@ -33,13 +33,13 @@ public class Player extends Character{
 	@Override
 	public int attack() {
             // TODO Auto-generated method stub
-            return 0;
+            return (int) (Math.random()*(getXp()/4 + numAtkUpgrades*3 + 3) + getXp()/10 + numAtkUpgrades*2 + numDefUpgrades + 1);
 	}
 
 	@Override
 	public int defend() {
             // TODO Auto-generated method stub
-            return 0;
+            return (int) (Math.random()*(getXp()/4 + numDefUpgrades*3 + 3) + getXp()/10 + numDefUpgrades*2 + numAtkUpgrades + 1);
 	}
         
         //let the player choose a trait of either skill path

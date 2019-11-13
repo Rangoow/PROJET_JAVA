@@ -48,6 +48,23 @@ public abstract class Character {
     public String getName() {
         return name;
     }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     
     
     

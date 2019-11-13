@@ -199,7 +199,7 @@ public class GameLogic {
 			encounters[2] = "Battle";
 			encounters[3] = "Rest";
 			encounters[4] = "Shop";
-		}else if(player.xp >= 50 && act == 2){
+		}else if(player.getXp() >= 50 && act == 2){
 			//increment act and place
 			act = 3;
 			place = 2;
@@ -222,7 +222,7 @@ public class GameLogic {
 			encounters[3] = "Battle";
 			encounters[4] = "Shop";
 			//fully heal the player
-			player.getHP() = player.getMaxHP();
+			player.setHP(player.getMaxHP());
 		}else if(player.getXp() >= 100 && act == 3){
 			//increment act and place
 			act = 4;
@@ -234,14 +234,26 @@ public class GameLogic {
 			//story
 			Story.printFourthActIntro();
 			//fully heal the player
-			player.hp = player.maxHp;
+			player.setHP(player.getMaxHP());
 			//calling the final battle
 			//finalBattle();
             }
     }
 
 
-
+    //method to calculate a random encounter
+    public static void randomEncounter(){
+            //random number between 0 and the length of the encounters array
+            int encounter = (int) (Math.random()* encounters.length);
+            //calling the respective methods
+            if(encounters[encounter].equals("Battle")){
+                    //randomBattle();
+            }else if(encounters[encounter].equals("Rest")){
+                    //takeRest();
+            }else{
+                    //shop();
+            }
+    }
         
 }
 

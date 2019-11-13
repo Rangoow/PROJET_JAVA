@@ -16,7 +16,16 @@ public class GameLogic {
     static Scanner scanner = new Scanner(System.in);
     static Player player;
     public static boolean isRunning;
+    
+    //Story elements
+    public static int place = 0, act;
+    public static String[] places = {"Everlasting Mountains", "Haunted Landlines", "Castle of the Evil Emperor", "Throne Room"};
 
+    //random encounters
+    public static String[] encounters = {"Battle", "Battle", "Battle", "Rest", "Rest"};
+	
+    //enemy names
+    public static String[] enemies = {"Ogre", "Ogre", "Goblin", "Goblin", "Stone Elemental"};
     
     //Get user input
     public static int getUserInput(String choiceString, int choicesNumber){
@@ -125,14 +134,18 @@ public class GameLogic {
     
     //method to continue the journey (more next part)
     public static void continueJourney(){
-
+        //check if act must be increased
+	checkAct();
+	//check if game isn't in last act
+	if(act != 4)
+            randomEncounter();
     }
     
     
     
     //printing the main menu
     public static void printMenu(){
-	printHeading(places[place]);
+	titlePrint(places[place],'#');
 	System.out.println("Choose an action:");
 	separatorPrint('#',20);
 	System.out.println("(1) Continue on your journey");
@@ -142,7 +155,7 @@ public class GameLogic {
     
     
     //printing out the most important information about the player character
-public static void characterInfo(){
+    public static void characterInfo(){
 	titlePrint("CHARACTER INFO",'#');
 	System.out.println(player.getName() + "\tHP: " + player.getHP() + "/" + player.getMaxHP());
 	separatorPrint('#',20);
@@ -161,7 +174,71 @@ public static void characterInfo(){
 	continueCommand();
 }
 
-
+    //method that changes the game's values based on player xp
+    public static void checkAct(){
+            //change acts based on xp
+		if(player.getXp() >= 10 && act == 1){
+			//increment act and place
+			act = 2;
+			place = 1;
+			//story
+			Story.printFirstActOutro();
+			//let the player "level up"
+			player.chooseTrait();
+			//story
+			Story.printSecondActIntro();
+			//assign new values to enemies
+			enemies[0] = "Evil Mercenary";
+			enemies[1] = "Goblin";
+			enemies[2] = "Wolve Pack";
+			enemies[3] = "Henchman of the Evil Emperor";
+			enemies[4] = "Scary Stranger";
+			//assign new values to encounters
+			encounters[0] = "Battle";
+			encounters[1] = "Battle";
+			encounters[2] = "Battle";
+			encounters[3] = "Rest";
+			encounters[4] = "Shop";
+		}else if(player.xp >= 50 && act == 2){
+			//increment act and place
+			act = 3;
+			place = 2;
+			//story
+			Story.printSecondActOutro();
+			//lvl up
+			player.chooseTrait();
+			//Story
+			Story.printThirdActIntro();
+			//assign new values to enemies
+			enemies[0] = "Evil Mercenary";
+			enemies[1] = "Evil Mercenary";
+			enemies[2] = "Henchman of the Evil Emperor";
+			enemies[3] = "Henchman of the Evil Emperor";
+			enemies[4] = "Henchman of the Evil Emperor";
+			//assign new values to encounters
+			encounters[0] = "Battle";
+			encounters[1] = "Battle";
+			encounters[2] = "Battle";
+			encounters[3] = "Battle";
+			encounters[4] = "Shop";
+			//fully heal the player
+			player.getHP() = player.getMaxHP();
+		}else if(player.getXp() >= 100 && act == 3){
+			//increment act and place
+			act = 4;
+			place = 3;
+			//story
+			Story.printThirdActOutro();
+			//lvl up
+			player.chooseTrait();
+			//story
+			Story.printFourthActIntro();
+			//fully heal the player
+			player.hp = player.maxHp;
+			//calling the final battle
+			//finalBattle();
+            }
+    }
 
 
 

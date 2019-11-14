@@ -15,7 +15,7 @@ public class Enemy extends Character {
 	
 	//enemy specific constructor
 	public Enemy(String name, int maxHp, int xp) {
-		super(name, maxHp, xp);
+		super(name, 100, xp);
                 //assigning variable
 		this.playerXp = playerXp;
 	}

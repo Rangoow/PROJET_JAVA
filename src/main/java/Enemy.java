@@ -11,24 +11,24 @@
 public class Enemy extends Character {
     
     //variable to store the players current xp
-	int playerXp;
+    int playerXp;
 	
-	//enemy specific constructor
-	public Enemy(String name, int maxHp, int xp) {
-		super(name, 100, xp);
-                //assigning variable
-		this.playerXp = playerXp;
-	}
+    //enemy specific constructor
+    public Enemy(String name, int maxHp, int playerXp) {
+            super(name, maxHp, playerXp);
+            this.playerXp=playerXp;
+    }
 
-	//Enemy specific attack and defence calculations
-	@Override
-	public int attack() {
-		return (int) (Math.random()*(playerXp/4 + 1) + getXp()/4 + 3);
-	}
+    //Enemy specific attack and defence calculations
+    @Override
+    public int attack() {
+            return (int) (Math.random()*(playerXp/4 + 1) + getXp()/4 + 3);
+    }
 
-	@Override
-	public int defend() {
-            return (int) (Math.random()*(playerXp/4 + 1) + getXp()/4 + 3);	}
+    @Override
+    public int defend() {
+        return (int) (Math.random()*(playerXp/4 + 1) + getXp()/4 + 3);	
+    }
 
     
 }

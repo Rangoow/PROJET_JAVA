@@ -9,7 +9,7 @@
  * @author noees
  */
 
-public class Player extends Character{
+public final class Player extends Character{
     
         //Integers to sroe number of upgraades/skills in each path
         public int numAtkUpgrades, numDefUpgrades;
@@ -22,7 +22,7 @@ public class Player extends Character{
         //Player specific constructor
         public Player(String name){
             //calling super class constructor
-            super(name,100,0);
+            super(name,10,1);
             //Setting upgrade number to 0
             this.numAtkUpgrades = 0;
             this.numDefUpgrades = 0;
@@ -49,25 +49,22 @@ public class Player extends Character{
         
         //let the player choose a trait of either skill path
         public void chooseTrait(){
-            //GameLogic.consoleClear();
-            GameLogic.titlePrint("Choose a trait : ",'#');
+            GameDisplay.titlePrint("Choose a trait : ",'#');
             System.out.println("(1)" + atkUpgrades[numAtkUpgrades]);
             System.out.println("(2)" + defUpgrades[numDefUpgrades]);
             //get the players choice:
-            //GameLogic.consoleClear();
             //get the player choice
-            int input = GameLogic.getUserInput(">> ",2);
-            //GameLogic.consoleClear();
+            int input = GameDisplay.getUserInput(">> ",2);
             //deal with both cases
             if (input == 1 ){
-                GameLogic.headPrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'#');
+                GameDisplay.headPrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'#');
                 numAtkUpgrades++;
             }
             else{
-                GameLogic.headPrint("You chose " + defUpgrades[numDefUpgrades] +"! ",'#');
+                GameDisplay.headPrint("You chose " + defUpgrades[numDefUpgrades] +"! ",'#');
                 numDefUpgrades++;                
             }
-            GameLogic.continueCommand();
+            GameDisplay.continueCommand();
         }
         
         

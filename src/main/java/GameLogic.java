@@ -145,7 +145,7 @@ public class GameLogic {
 			//increment act and place
 			act = 2;
 			place = 1;
-                        encounters[3]="rest";
+                        encounters[3]="Rest";
 			//story
 			Story.printFirstActOutro();
 			//let the player "level up"
@@ -329,7 +329,8 @@ public class GameLogic {
         GameDisplay.headPrint("You earned " + player.getXp() + " XP on your journey. Try to earn more next time!",'#');
         try {
             Data.saveData(player.getName(), player.getXp(), completed);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex){
             Logger.getLogger(GameLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         isRunning = false;
@@ -371,15 +372,17 @@ public class GameLogic {
 		if(input == 1){
 			//player actually takes rest
 			if(player.getHP() < player.getMaxHP()){
-				int hpRestored = (int) (Math.random() * (player.getXp()/4 + 1) + 10);
-				player.setHP(player.getHP()+ hpRestored);
-				if(player.getHP() > player.getMaxHP())
-					player.setHP(player.getMaxHP());
-				System.out.println("You took a rest and restored up to " + hpRestored + " health.");
-				System.out.println("You're now at " + player.getHP() + "/" + player.getMaxHP() + " health.");
-				player.restsLeft--;
-			}else
-				System.out.println("You're at full health. You don't need to rest now!");
+                            int hpRestored = (int) (Math.random() * (player.getXp()/4 + 1) + 10);
+                            player.setHP(player.getHP()+ hpRestored);
+                            if(player.getHP() > player.getMaxHP())
+                                    player.setHP(player.getMaxHP());
+                            System.out.println("You took a rest and restored up to " + hpRestored + " health.");
+                            System.out.println("You're now at " + player.getHP() + "/" + player.getMaxHP() + " health.");
+                            player.restsLeft--;
+			}
+                        else{
+                            System.out.println("You're at full health. You don't need to rest now!");
+                        }
 		}
 		GameDisplay.continueCommand();
 	}

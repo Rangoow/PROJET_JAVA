@@ -19,8 +19,8 @@ public abstract class Character {
     
     //Methods
     
-    public abstract int attack();
-    public abstract int defend();
+    //public abstract int attack();
+    //public abstract int defend();
     
     //Constructor
     

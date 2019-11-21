@@ -13,15 +13,15 @@ public class Data {
      
     public static void saveData(String name, int XP,boolean completed) throws IOException{
         String content = "Name : " + name + "       " + "XP : " + XP + "       " + "Game completed : " + completed + '\n';
-        FileWriter writer = new FileWriter("data.txt",true);
-        try{
-            writer.write(content);
-            writer.close();
+        try(FileWriter writer = new FileWriter("data.txt",true)) {
+            try{
+                writer.write(content);
+                writer.close();
+            }
+            catch (IOException e){
+                System.err.println("Error: " + e.getMessage());
+            }
         }
-        catch (IOException e){
-            System.err.println("Error: " + e.getMessage());
-        }
-        writer.close();
     }
     
     

@@ -9,23 +9,23 @@
  * @author noees
  */
 
-public final class Player extends Character{
+public final class Player extends Character implements Action{
     
         //Integers to sroe number of upgraades/skills in each path
-        public int numAtkUpgrades, numDefUpgrades;
+        public int nbrAtkAbility, nbrDefAbility;
         int gold, restsLeft, pots;
         
         //Array to store skill names
-        public String[] atkUpgrades = {"Strength","Power","Might","Godlike Strength"};
-        public String[] defUpgrades = {"Heavy Bones","Stoneskin","Scale Armor","Holy Aura"};
+        public String[] atkAbility = {"FIRST CERTIFICATE","PR VALIDATED","ASN MASTER","3rd PURMIX"};
+        public String[] defAbility = {"VOLTAIRE CERTIFICATE","INTERNATIONAL BREAK VALIDATED","CONTRAT PRO","STRONG LIVER"};
         
         //Player specific constructor
         public Player(String name){
             //calling super class constructor
             super(name,10,1);
             //Setting upgrade number to 0
-            this.numAtkUpgrades = 0;
-            this.numDefUpgrades = 0;
+            this.nbrAtkAbility = 0;
+            this.nbrDefAbility = 0;
             //let player choose a trait when creating
             chooseTrait();
             
@@ -38,30 +38,30 @@ public final class Player extends Character{
 	@Override
 	public int attack() {
             // TODO Auto-generated method stub
-            return (int) (Math.random()*(getXp()/4 + numAtkUpgrades*3 + 3) + getXp()/10 + numAtkUpgrades*2 + numDefUpgrades + 1);
+            return (int) (Math.random()*(getXp()/4 + nbrAtkAbility*3 + 3) + getXp()/10 + nbrAtkAbility*2 + nbrDefAbility + 1);
 	}
 
 	@Override
 	public int defend() {
             // TODO Auto-generated method stub
-            return (int) (Math.random()*(getXp()/4 + numDefUpgrades*3 + 3) + getXp()/10 + numDefUpgrades*2 + numAtkUpgrades + 1);
+            return (int) (Math.random()*(getXp()/4 + nbrDefAbility*3 + 3) + getXp()/10 + nbrDefAbility*2 + nbrAtkAbility + 1);
 	}
         
         //let the player choose a trait of either skill path
         public void chooseTrait(){
             GameDisplay.titlePrint("Choose a trait : ",'#');
-            System.out.println("(1)" + atkUpgrades[numAtkUpgrades]);
-            System.out.println("(2)" + defUpgrades[numDefUpgrades]);
+            System.out.println("(1)" + atkAbility[nbrAtkAbility]);
+            System.out.println("(2)" + defAbility[nbrDefAbility]);
             //get the players choice:
             int input = GameDisplay.getUserInput(">> ",2);
             //deal with both cases
             if (input == 1 ){
-                GameDisplay.titlePrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'-');
-                numAtkUpgrades++;
+                GameDisplay.titlePrint("You chose " + atkAbility[nbrAtkAbility] +"! ",'-');
+                nbrAtkAbility++;
             }
             else{
-                GameDisplay.titlePrint("You chose " + defUpgrades[numDefUpgrades] +"! ",'-');
-                numDefUpgrades++;                
+                GameDisplay.titlePrint("You chose " + defAbility[nbrDefAbility] +"! ",'-');
+                nbrDefAbility++;                
             }
             GameDisplay.continueCommand();
         }

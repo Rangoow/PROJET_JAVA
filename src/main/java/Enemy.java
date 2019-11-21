@@ -8,7 +8,7 @@
  *
  * @author noees
  */
-public class Enemy extends Character {
+public class Enemy extends Character implements Action {
     
     //variable to store the players current xp
     int playerXp;

@@ -10,7 +10,7 @@
  */
 
 //class that does nothing but storing methods to print out every part of the story
-public interface Story {
+public class Story {
 	
 	public static void printIntro(){
 		GameDisplay.headPrint("    STORY     ",'#');	

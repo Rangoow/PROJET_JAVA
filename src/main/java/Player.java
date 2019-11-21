@@ -53,15 +53,14 @@ public final class Player extends Character{
             System.out.println("(1)" + atkUpgrades[numAtkUpgrades]);
             System.out.println("(2)" + defUpgrades[numDefUpgrades]);
             //get the players choice:
-            //get the player choice
             int input = GameDisplay.getUserInput(">> ",2);
             //deal with both cases
             if (input == 1 ){
-                GameDisplay.headPrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'#');
+                GameDisplay.titlePrint("You chose " + atkUpgrades[numAtkUpgrades] +"! ",'-');
                 numAtkUpgrades++;
             }
             else{
-                GameDisplay.headPrint("You chose " + defUpgrades[numDefUpgrades] +"! ",'#');
+                GameDisplay.titlePrint("You chose " + defUpgrades[numDefUpgrades] +"! ",'-');
                 numDefUpgrades++;                
             }
             GameDisplay.continueCommand();

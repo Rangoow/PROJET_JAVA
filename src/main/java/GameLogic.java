@@ -29,10 +29,10 @@ public class GameLogic {
     public static String[] places = {"ATRYIUM", "AMPHI JND", "B805", "A918"};
 
     //random encounters
-    public static String[] encounters = {"Battle", "Battle", "Battle", "Rest", "Rest"};
+    public static String[] encounters = {"Battle", "Battle", "Battle", "Rest", "Rest","Shop"};
     
     //enemy names
-    public static String[] enemies = {"HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ICAM STUDENT", "HEI STUDENT"};
+    public static String[] enemies = {"HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ISA STUDENT", "LA CATHO STUDENT" };
     
 
     
@@ -43,7 +43,7 @@ public class GameLogic {
         String name;
         
         //Print title screen
-        GameDisplay.headPrint("YNCREA RPG",'#');
+        GameDisplay.headPrint("  YNCREA RPG  ",'#');
         GameDisplay.continueCommand();
         
         //getting the player name
@@ -151,19 +151,7 @@ public class GameLogic {
 			player.chooseTrait();
 			//story
 			Story.printSecondActIntro();
-			//assign new values to enemies
-			enemies[0] = "Evil Mercenary";
-			enemies[1] = "Goblin";
-			enemies[2] = "Wolve Pack";
-			enemies[3] = "Henchman of the Evil Emperor";
-			enemies[4] = "Scary Stranger";
-			//assign new values to encounters
-			encounters[0] = "Battle";
-			encounters[1] = "Battle";
-			encounters[2] = "Battle";
-			encounters[3] = "Rest";
-			encounters[4] = "Shop";
-		}else if(player.getXp() >= 50 && act == 2){
+		}else if(player.getXp() >= 20 && act == 2){
 			//increment act and place
 			act = 3;
 			place = 2;
@@ -173,21 +161,9 @@ public class GameLogic {
 			player.chooseTrait();
 			//Story
 			Story.printThirdActIntro();
-			//assign new values to enemies
-			enemies[0] = "Evil Mercenary";
-			enemies[1] = "Evil Mercenary";
-			enemies[2] = "Henchman of the Evil Emperor";
-			enemies[3] = "Henchman of the Evil Emperor";
-			enemies[4] = "Henchman of the Evil Emperor";
-			//assign new values to encounters
-			encounters[0] = "Battle";
-			encounters[1] = "Battle";
-			encounters[2] = "Battle";
-			encounters[3] = "Battle";
-			encounters[4] = "Shop";
 			//fully heal the player
 			player.setHP(player.getMaxHP());
-		}else if(player.getXp() >= 100 && act == 3){
+		}else if(player.getXp() >= 30 && act == 3){
 			//increment act and place
 			act = 4;
 			place = 3;
@@ -208,128 +184,138 @@ public class GameLogic {
     public static void randomEncounter(){
             //random number between 0 and the length of the encounters array
             int encounter = (int) (Math.random()* encounters.length);
-            //calling the respective methods
-            if(encounters[encounter].equals("Battle")){
-                    randomBattle();
-            }else if(encounters[encounter].equals("Rest")){
-                    takeRest();
-            }else{
-                    shop();
-            }
+        //calling the respective methods
+        switch (encounters[encounter]) {
+            case "Battle":
+                randomBattle();
+                break;
+            case "Rest":
+                takeRest();
+                break;
+            default:
+                shop();
+                break;
+        }
     }
         
     //creating a random battle
     public static void randomBattle(){
-	GameDisplay.headPrint("You encountered an evil minded creature. You'll have to fight it!",'#');
+	GameDisplay.titlePrint("| You encountered an evil minded creature. You'll have to fight it! |",'=');
 	GameDisplay.continueCommand();
 	//creating new enemy with random name
-	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], (int) (Math.random()*player.getMaxHP() + player.getMaxHP()/3 + 5),(int) (Math.random()*(player.getXp()/4 + 2) + 1)));
+	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], (int) (Math.random()*player.getMaxHP() + player.getMaxHP()/3 + 5),(int) (Math.random()*(player.getXp()/4 + 4) + 1)));
     }
     
     //the main BATTLE method    
     public static void battle(Enemy enemy){
-            //main battle loop
-            while(true){
-                    GameDisplay.titlePrint(enemy.getName() + "\nHP: " + enemy.getHP() + "/" + enemy.getMaxHP(),'#');
-                    GameDisplay.titlePrint(player.getName() + "\nHP: " + player.getHP() + "/" + player.getMaxHP(),'#');
-                    System.out.println("Choose an action:");
-                    GameDisplay.separatorPrint('#',20);
-                    System.out.println("(1) Fight\n(2) Use Potion\n(3) Run Away");
-                    int input = GameDisplay.getUserInput(">> ", 3);
-                    //react accordingly to player input
-                    if(input == 1){
-                            //FIGHT
-                            //calculate dmg and dmgTook (dmg enemy deals to player)
-                            int dmg = player.attack() - enemy.defend();
-                            int dmgTook = enemy.attack() - player.defend();
-                            //check that dmg and dmgTook isn't negative
-                            if(dmgTook < 0){
-                                    //add some dmg if player defends very well
-                                    dmg -= dmgTook/2;
-                                    dmgTook = 0;
-                            }
-                            if(dmg < 0)
-                                    dmg = 0;
-                            //deal damge to both parties
-                            player.setHP(player.getHP()-dmgTook);
-                            enemy.setHP(enemy.getHP()-dmg);
-                            //print the info of this battle round
-                            GameDisplay.headPrint("BATTLE",'#');
-                            System.out.println("You dealt " + dmg + " damage to the " + enemy.getName() + ".");
-                            GameDisplay.separatorPrint('#',15);
-                            System.out.println("The " + enemy.getName() + " dealt " + dmgTook + " damage to you.");
-                            GameDisplay.continueCommand();
-                            //check if player is still alive or dead
-                            if(player.getHP() <= 0){
-                                    playerDied(); //method to end the game
-                                    break;
-                            }else if(enemy.getHP() <= 0){
-                                    //tell the player he won
-                                    GameDisplay.headPrint("You defeated the " + enemy.getName() + "!",'#');
-                                    //increase player xp
-                                    player.setXp(player.getXp()+enemy.getXp());
-                                    System.out.println("You earned "+ enemy.getXp() + " XP!");
-                                    //random drops
-                                    boolean addRest = (Math.random()*5 + 1 <= 2.25);
-                                    int goldEarned = (int) (Math.random()*enemy.getXp());
-                                    if(addRest){
-                                        player.restsLeft++;
-                                        System.out.println("You earned the chance to get an additional rest!");
-                                    }
-                                    if(goldEarned > 0){
-                                        player.gold += goldEarned;
-                                        System.out.println("You collect " + goldEarned + " gold from the " + enemy.getName() + "'s corpse!");
-                                    }
-                                    GameDisplay.continueCommand();
-                                    break;
-                            }
-                    }else if(input == 2){
-                        //USE POTION
-                        if(player.pots > 0 && player.getHP() < player.getMaxHP()){
-                                //player CAN take a potion
-                                //make sure player wants to drink the potion
-                                GameDisplay.headPrint("Do you want to drink a potion? (" + player.pots + " left).",'#');
-                                System.out.println("(1) Yes\n(2) No, maybe later");
-                                input = GameDisplay.getUserInput(">> ", 2);
-                                if(input == 1){
-                                        //player actually took it
-                                        player.setHP(player.getMaxHP());
-                                        GameDisplay.headPrint("You drank a magic potion. It restored your health back to " + player.getMaxHP(),'#');
-                                        GameDisplay.continueCommand();
-                                }
-                        }
-                        else{
-                                //player CANNOT take a potion
-                                GameDisplay.headPrint("You don't have any potions or you're at full health.",'#');
-                                GameDisplay.continueCommand();
-                        }
-
-                    }else{
-                            //RUN AWAY
-                            //check that player isn't in last act (final boss battle)
-                            if(act != 4){
-                                    //chance of 35% to escape
-                                    if(Math.random()*10 + 1 <= 3.5){
-                                            GameDisplay.headPrint("You ran away from the " + enemy.getName() + "!",'#');
-                                            GameDisplay.continueCommand();
-                                            break;
-                                    }else{
-                                            GameDisplay.headPrint("You didn't manage to escape.",'#');
-                                            //calculate dmage the player takes
-                                            int dmgTook = enemy.attack();
-                                            System.out.println("In your hurry you took " + dmgTook + " damage!");
-                                            GameDisplay.continueCommand();
-                                            //check if player's still alive
-                                            if(player.getHP() <= 0)
-                                                    playerDied();
-                                    }
-                            }else{
-                                    GameDisplay.headPrint("YOU CANNOT ESCAPE THE EVIL EMPEROR!!!",'#');
-                                    GameDisplay.continueCommand();
-                            }
-
+        while (true) {
+            GameDisplay.titlePrint(enemy.getName() + "\nHP: " + enemy.getHP() + "/" + enemy.getMaxHP(),'#');
+            GameDisplay.titlePrint(player.getName() + "\nHP: " + player.getHP() + "/" + player.getMaxHP(),'#');
+            System.out.println("Choose an action:");
+            GameDisplay.separatorPrint('.',20);
+            System.out.println("(1) Fight ");
+            System.out.println("(2) Use Potion");
+            System.out.println("(3) Run Away");
+            int input = GameDisplay.getUserInput(">> ", 3);
+            //react accordingly to player inpu
+            int dmgTook;
+            switch (input) {
+                case 1:
+                    //FIGHT
+                    //calculate dmg and dmgTook (dmg enemy deals to player)
+                    int dmg = player.attack() - enemy.defend();
+                    dmgTook = enemy.attack() - player.defend();
+                    //check that dmg and dmgTook isn't negative
+                    if(dmgTook < 0){
+                        //add some dmg if player defends very well
+                        dmg -= dmgTook/2;
+                        dmgTook = 0;
                     }
+                    if(dmg < 0)
+                        dmg = 0;
+                    //deal damge to both parties
+                    player.setHP(player.getHP()-dmgTook);
+                    enemy.setHP(enemy.getHP()-dmg);
+                    //print the info of this battle round
+                    GameDisplay.headPrint("    BATTLE    ",'#');
+                    System.out.println("You dealt " + dmg + " damage to the " + enemy.getName() + ".");
+                    GameDisplay.separatorPrint('#',15);
+                    System.out.println("The " + enemy.getName() + " dealt " + dmgTook + " damage to you.");
+                    GameDisplay.continueCommand();
+                    //check if player is still alive or dead
+                    if (player.getHP() <= 0) {
+                        playerDied(); //method to end the game
+                        break;
+                    } else if (enemy.getHP() <= 0) {
+                        //tell the player he won
+                        GameDisplay.titlePrint("You defeated the " + enemy.getName() + "!",'#');
+                        //increase player xp
+                        player.setXp(player.getXp()+enemy.getXp());
+                        player.setMaxHP(player.getMaxHP()+2);
+                        System.out.println("You earned "+ enemy.getXp() + " XP!");
+                        //random drops
+                        boolean addRest = (Math.random()*5 + 1 <= 2.25);
+                        int goldEarned = (int) (Math.random()*enemy.getXp());
+                        if(addRest){
+                            player.restsLeft++;
+                            System.out.println("You earned the chance to get an additional rest!");
+                        }
+                        if(goldEarned > 0){
+                            player.gold += goldEarned;
+                            System.out.println("You collect " + goldEarned + " gold from the " + enemy.getName() + "'s corpse!");
+                        }
+                        GameDisplay.continueCommand();
+                        break;
+                    }
+                    break;
+                case 2:
+                    //USE POTION
+                    if(player.pots > 0 && player.getHP() < player.getMaxHP()){
+                        //player CAN take a potion
+                        //make sure player wants to drink the potion
+                        GameDisplay.headPrint("Do you want to drink a potion? (" + player.pots + " left).",'#');
+                        System.out.println("(1) Yes");
+                        System.out.println("(2) No, maybe later");
+                        input = GameDisplay.getUserInput(">> ", 2);
+                        if(input == 1){
+                            //player actually took it
+                            player.setHP(player.getMaxHP());
+                            GameDisplay.headPrint("You drank a magic potion. It restored your health back to " + player.getMaxHP(),'#');
+                            GameDisplay.continueCommand();
+                        }
+                    }
+                    else{
+                        //player CANNOT take a potion
+                        GameDisplay.headPrint("You don't have any potions or you're at full health.",'#');
+                        GameDisplay.continueCommand();
+                    }
+                    break;
+                default:
+                    //RUN AWAY
+                    //check that player isn't in last act (final boss battle)
+                    if (act != 4) {
+                        //chance of 35% to escape
+                        if (Math.random()*10 + 1 <= 3.5) {
+                            GameDisplay.headPrint("You ran away from the " + enemy.getName() + "!",'#');
+                            GameDisplay.continueCommand();
+                            break;
+                        } else {
+                            GameDisplay.headPrint("You didn't manage to escape.",'#');
+                            //calculate dmage the player takes
+                            dmgTook = enemy.attack();
+                            System.out.println("In your hurry you took " + dmgTook + " damage!");
+                            GameDisplay.continueCommand();
+                            //check if player's still alive
+                            if(player.getHP() <= 0)
+                                playerDied();
+                        }
+                    } else {
+                        GameDisplay.headPrint("YOU CANNOT ESCAPE THE EVIL EMPEROR!!!",'#');
+                        GameDisplay.continueCommand();
+                    }
+                    break;
             }
+        }
     }
         
     //method that gets called when the player is dead
@@ -352,7 +338,9 @@ public class GameLogic {
 	System.out.println("- Magic Potion: " + price + " gold.");
 	GameDisplay.separatorPrint('#',20);
 	//ask the player to buy one
-	System.out.println("Do you want to buy one?\n(1) Yes!\n(2) No thanks.");
+	System.out.println("Do you want to buy one ?");
+        System.out.println("(1) Yes!");
+        System.out.println("(2) No thanks.");
 	int input = GameDisplay.getUserInput(">> ", 2);
 	//check if player wants to buy
 	if(input == 1){
@@ -371,7 +359,8 @@ public class GameLogic {
     public static void takeRest(){
         if(player.restsLeft >= 1){
 		GameDisplay.headPrint("Do you want to take a rest? (" + player.restsLeft + " rest(s) left).",'#');
-		System.out.println("(1) Yes\n(2) No, not now.");
+		System.out.println("(1) Yes !");
+                System.out.println("(2) No, not now.");
 		int input = GameDisplay.getUserInput(">> ", 2);
 		if(input == 1){
 			//player actually takes rest
@@ -393,7 +382,7 @@ public class GameLogic {
     //the final (last) battle of the entire game
     public static void finalBattle(){
 	//creating the evil emperor and letting the player fight against him
-	battle(new Enemy("THE EVIL EMPEROR", 300,player.getXp()));
+	battle(new Enemy("CAMPUS YNCREA", 150,player.getXp()));
 	//printing the proper ending
 	Story.printEnd(player);
         completed = true;

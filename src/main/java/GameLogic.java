@@ -57,7 +57,7 @@ public class GameLogic {
             int input = GameDisplay.getUserInput(">> " , 2);
             if(input == 1)
                     nameSet = true;
-        }while(!nameSet);
+        }while(nameSet == false);
         
         //create new player object with the name
         player = new Player(name);
@@ -117,7 +117,7 @@ public class GameLogic {
 	System.out.println("XP: " + player.getXp() + "\tGold: " + player.gold);
 	GameDisplay.separatorPrint('.',20);
 	//# of pots
-	System.out.println("number of Potions: " + player.pots);
+	System.out.println("number of beers: " + player.beers);
 	GameDisplay.separatorPrint('.',20);
 	
 	//printing the chosen traits
@@ -138,8 +138,8 @@ public class GameLogic {
     public static void checkAct(){
             //change acts based on xp
                 if (player.getXp() == 1){
-                    Story.printIntro();
-                    Story.printFirstActIntro();
+                    Story.displayStoryIntro();
+                    Story.displayFirstActIntro();
                 }
                 else if(player.getXp() >= 10 && act == 1){
 			//increment act and place
@@ -147,11 +147,11 @@ public class GameLogic {
 			place = 1;
                         encounters[3]="Rest";
 			//story
-			Story.printFirstActOutro();
+			Story.displayFirstActOutro();
 			//let the player "level up"
 			player.chooseTrait();
 			//story
-			Story.printSecondActIntro();
+			Story.displaySecondActIntro();
 		}
                 else if(player.getXp() >= 20 && act == 2){
 			//increment act and place
@@ -159,11 +159,11 @@ public class GameLogic {
 			place = 2;
                         encounters[4]="Shop";
 			//story
-			Story.printSecondActOutro();
+			Story.displaySecondActOutro();
 			//lvl up
 			player.chooseTrait();
 			//Story
-			Story.printThirdActIntro();
+			Story.displayThirdActIntro();
 			//fully heal the player
 			player.setHP(player.getMaxHP());
 		}
@@ -172,11 +172,11 @@ public class GameLogic {
 			act = 4;
 			place = 3;
 			//story
-			Story.printThirdActOutro();
+			Story.displayThirdActOutro();
 			//lvl up
 			player.chooseTrait();
 			//story
-			Story.printFourthActIntro();
+			Story.displayFourthActIntro();
 			//fully heal the player
 			player.setHP(player.getMaxHP());
 			//calling the final battle
@@ -275,10 +275,10 @@ public class GameLogic {
                     break;
                 case 2:
                     //USE POTION (BEER)
-                    if(player.pots > 0 && player.getHP() < player.getMaxHP()){
+                    if(player.beers > 0 && player.getHP() < player.getMaxHP()){
                         //player CAN take a potion
                         //make sure player wants to drink the potion
-                        GameDisplay.headPrint("Do you want to drink a potion? (" + player.pots + " left).",'#');
+                        GameDisplay.headPrint("Do you want to drink a potion? (" + player.beers + " left).",'#');
                         System.out.println("(1) Yes");
                         System.out.println("(2) No, maybe later");
                         input = GameDisplay.getUserInput(">> ", 2);
@@ -339,7 +339,7 @@ public class GameLogic {
     //shopping / encountering a travelling trader
     public static void shop(){
 	GameDisplay.titlePrint("You meet a mysterious stranger at the ZYTHO.\nHe offers you something:",'#');
-	int price = (int) (Math.random()* (10 + player.pots*3) + 10 + player.pots);
+	int price = (int) (Math.random()* (10 + player.beers*3) + 10 + player.beers);
 	System.out.println("- Magic beer: " + price + " gold.");
 	GameDisplay.separatorPrint('#',20);
 	//ask the player to buy one
@@ -352,7 +352,7 @@ public class GameLogic {
 		//check if player has enough gold
 		if(player.gold >= price){
 			GameDisplay.headPrint("You bought a magical beer " + price + "gold.",'#');
-			player.pots++;
+			player.beers++;
 			player.gold -= price;
 		}
                 else{
@@ -393,11 +393,12 @@ public class GameLogic {
 	//creating the evil emperor and letting the player fight against him
 	battle(new Enemy("CAMPUS YNCREA", 150,player.getXp()));
 	//printing the proper ending
-	Story.printEnd(player);
+	Story.displayEndOfTheGame(player);
         completed = true;
         try {
             Data.saveData(player.getName(), player.getXp(), completed);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex){
             Logger.getLogger(GameLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 	isRunning = false;       

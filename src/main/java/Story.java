@@ -12,7 +12,7 @@
 //class that does nothing but storing methods to print out every part of the story
 public class Story {
 	
-	public static void printIntro(){
+	public static void displayStoryIntro(){
 		GameDisplay.headPrint("    STORY     ",'#');	
                 System.out.println();
                 System.out.println("Tu viens de te reveiller, il est 12h30, journée normale. Tu fonces sur ta boite mail et ....");
@@ -21,7 +21,7 @@ public class Story {
 		System.out.println("Te voila en route direction Lille, seul, sans amis, avec une seule idée en tête, le diplome ISEN.");
 	}
 	
-	public static void printFirstActIntro(){
+	public static void displayFirstActIntro(){
 		GameDisplay.headPrint("ACT I - INTRO ",'#');
                 System.out.println();
 		System.out.println("Après des au-revoirs en tout genre, tu roules direction Lille, laissant le  soleil derrière toi.");
@@ -31,7 +31,7 @@ public class Story {
                 GameDisplay.continueCommand();
 	}
 	
-	public static void printFirstActOutro(){
+	public static void displayFirstActOutro(){
 		GameDisplay.headPrint("ACT I - OUTRO ",'#');
                 System.out.println();
 		System.out.println("Ca y est le grand jour est arrivé !  Tu t'es fait tout beau, ton sac est prêt !");
@@ -41,7 +41,7 @@ public class Story {
 		GameDisplay.continueCommand();
 	}
 	
-	public static void printSecondActIntro(){
+	public static void displaySecondActIntro(){
 		GameDisplay.headPrint("ACT II- INTRO",'#');
 		System.out.println();
 		System.out.println("Lundi matin, 12h30 : BIP BIP BIP ");
@@ -51,7 +51,7 @@ public class Story {
 		GameDisplay.continueCommand();
 	}
 	
-	public static void printSecondActOutro(){
+	public static void displaySecondActOutro(){
                 GameDisplay.headPrint("ACT II- OUTRO",'#');
 		System.out.println();
 		System.out.println("L'année est finis ! Tu as eu la moyenne à tout tes modules ! ");
@@ -61,7 +61,7 @@ public class Story {
 		GameDisplay.continueCommand();
 	}
 	
-	public static void printThirdActIntro(){
+	public static void displayThirdActIntro(){
 		GameDisplay.headPrint("ACT III-INTRO",'#');
 		System.out.println();
 		System.out.println("Te voilà maintenant en 4eme année, tu te rends rapidement compte du choix douteux de tes différents modules..");
@@ -71,7 +71,7 @@ public class Story {
 	}
 	
 	
-	public static void printThirdActOutro(){
+	public static void displayThirdActOutro(){
 		GameDisplay.headPrint("ACTIII- OUTRO",'#');
 		System.out.println();
 		System.out.println("L'année est finis ! Tu as eu la moyenne à tout tes modules ! ");
@@ -81,7 +81,7 @@ public class Story {
 		GameDisplay.continueCommand();
 	}
 	
-	public static void printFourthActIntro(){
+	public static void displayFourthActIntro(){
 		GameDisplay.headPrint("ACT IV- INTRO",'#');
 		System.out.println();
 		System.out.println("Tu y es, la cinquième année ouvre ses portes !");
@@ -92,8 +92,9 @@ public class Story {
 		GameDisplay.continueCommand();
 	}
 	
-	public static void printEnd(Player player){
-		System.out.println("Felicitation, " + player.getName() + "! Tu as vaincu YNCREA");
+	public static void displayEndOfTheGame(Player player){
+		System.out.println("Felicitation, " + player.getName() + "! Tu as vaincu YNCREA CAMPUS");
+                System.out.println("Longue vie au diplôme ISEN !!!");
 		System.out.println();
 		System.out.println("THE END !");
 	}

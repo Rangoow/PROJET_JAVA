@@ -13,7 +13,7 @@ public final class Player extends Character implements Action{
     
         //Integers to sroe number of upgraades/skills in each path
         public int nbrAtkAbility, nbrDefAbility;
-        int gold, restsLeft, pots;
+        int gold, restsLeft, beers;
         
         //Array to store skill names
         public String[] atkAbility = {"FIRST CERTIFICATE","PR VALIDATED","ASN MASTER","3rd PURMIX"};
@@ -31,7 +31,7 @@ public final class Player extends Character implements Action{
             
             this.gold = 5;
             this.restsLeft = 1;
-            this.pots = 0;
+            this.beers = 0;
         }
         
     	//Player specific methods (more in the next part)

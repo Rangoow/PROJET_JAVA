@@ -278,8 +278,6 @@ public class gameArchitecture {
                     //calculate dmg (dmg deals to enemy) and dmgTook (dmg enemy deals to player)                   
                     int dmg = player.attack() - enemy.defend();
                     int dmgTook = enemy.attack() - player.defend();
-                    System.out.println(dmg);
-                    System.out.println(dmgTook);
                     //check that dmg and dmgTook isn't negative
                     if(dmgTook < 0){
                         //add some dmg if player defends very well

@@ -27,7 +27,7 @@ public final class Player extends Character implements Action{
             this.nbrAtkAbility = 0;
             this.nbrDefAbility = 0;
             //let player choose a trait when creating
-            chooseTrait();
+            skillUpgrade();
             
             this.gold = 5;
             this.restsLeft = 1;
@@ -48,7 +48,7 @@ public final class Player extends Character implements Action{
 	}
         
         //let the player choose a trait of either skill path
-        public void chooseTrait(){
+        public void skillUpgrade(){
             GameDisplay.titlePrint("Choose a trait : ",'#');
             System.out.println("(1)" + atkAbility[nbrAtkAbility]);
             System.out.println("(2)" + defAbility[nbrDefAbility]);
@@ -63,7 +63,7 @@ public final class Player extends Character implements Action{
                 GameDisplay.titlePrint("You chose " + defAbility[nbrDefAbility] +"! ",'-');
                 nbrDefAbility++;                
             }
-            GameDisplay.continueCommand();
+            GameDisplay.waitCommand();
         }
         
         

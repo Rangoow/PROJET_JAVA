@@ -60,7 +60,7 @@ public class GameDisplay {
     }
     
     //Wait user input
-    public static void continueCommand(){
+    public static void waitCommand(){
         System.out.println("\nPress a enter to continue...");
         scanner.nextLine();
     } 

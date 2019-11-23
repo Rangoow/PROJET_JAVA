@@ -28,7 +28,7 @@ public class Story {
 		System.out.println("Après un long trajet, et la pose de pneus pluie, te voila arrivé à LILLE !");
 		System.out.println("Malgrès toutes les rumeurs sur le Nord, tu décides de ne pas les prendre en compte et te prépare pour la rentrée");
 		System.out.println();
-                GameDisplay.continueCommand();
+                GameDisplay.waitCommand();
 	}
 	
 	public static void displayFirstActOutro(){
@@ -38,7 +38,7 @@ public class Story {
 		System.out.println("Tu rencontres tes ami(e)s et te sent un peu moins seul..");
 		System.out.println("Cependant tout n'est pas encore gagné, des méchants trainnent dans les parrages....");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	public static void displaySecondActIntro(){
@@ -48,7 +48,7 @@ public class Story {
 		System.out.println("Tu as oublier que les vacances sont finis, ça commence mal...");
 		System.out.println("Donne tout pour rattraper ce retard ...");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	public static void displaySecondActOutro(){
@@ -58,7 +58,7 @@ public class Story {
 		System.out.println("FELICITATION !!");
 		System.out.println("Tu choisis tes spé et blablabla");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	public static void displayThirdActIntro(){
@@ -67,7 +67,7 @@ public class Story {
 		System.out.println("Te voilà maintenant en 4eme année, tu te rends rapidement compte du choix douteux de tes différents modules..");
 		System.out.println("BLABLABLA");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	
@@ -78,7 +78,7 @@ public class Story {
 		System.out.println("FELICITATION !!");
 		System.out.println("Tu choisis tes spé et blablabla");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	public static void displayFourthActIntro(){
@@ -89,7 +89,7 @@ public class Story {
 		System.out.println("Ton diplome ISEN est menacé par YNCREA !");
 		System.out.println("Défend toi ou devient un HEI");
                 System.out.println();
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
 	
 	public static void displayEndOfTheGame(Player player){

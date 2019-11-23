@@ -4,47 +4,42 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author noees
+ * ISEN-LILLE M1 JAVA PROJECT 2019
+ * @author NOE_ESPARSA 
  */
 
 
-public class GameLogic {
+public class gameArchitecture {
     
     static Scanner scanner = new Scanner(System.in);
-
+    
+    //Each game have a player
     static Player player;
+    
+    //Boolean that control and define the state of the game
     public static boolean isRunning = true;
     public static boolean completed = false;
     
-    //Story elements
+    //Int that control the place and the act of the game
     public static int place = 0, act=1;
+    
+    //String arrays that contain possible places, places action (Battle,rest,shop) and ennemies 
     public static String[] places = {"ATRYIUM", "AMPHI JND", "B805", "A918"};
-
-    //random encounters
-    public static String[] encounters = {"Battle", "Battle", "Battle", "Battle" ,"Battle"};
-    
-    //enemy names
+    public static String[] placeAction = {"Battle", "Battle", "Battle", "Battle" ,"Battle"}; 
     public static String[] enemies = {"HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ISA STUDENT", "LA CATHO STUDENT" };
-    
 
-    
-    
-    //method to start the game
+
+    /**
+     * Start the game, ask for a player name and launch gameloop()
+     */
     public static void startGame(){
         boolean nameSet= false;
         String name;
         
         //Print title screen
         GameDisplay.headPrint("  YNCREA RPG  ",'#');
-        GameDisplay.continueCommand();
+        GameDisplay.waitCommand();
         
         //getting the player name
         do{
@@ -66,14 +61,36 @@ public class GameLogic {
         gameLoop();
     }
 
-    //The main game loop
+        /**
+     *Display the main menu link to the game loop to choose between : 
+     *      continue the adventure
+     *      get inforamtions about your character
+     *      exit the game
+     */
+    public static void displayMenu(){
+	GameDisplay.titlePrint(places[place],'#');
+        System.out.println();
+	System.out.println("Choose an action:");
+	GameDisplay.separatorPrint('#',20);
+	System.out.println("(1) Continue");
+	System.out.println("(2) Character Info");
+	System.out.println("(3) Exit Game");
+        GameDisplay.separatorPrint('#',20);
+    }
+    
+    /**
+     *Main game loop that let player chose between :
+     *      continuing adventure
+     *      get info about your character 
+     *      exit the game
+     */
     public static void gameLoop(){
 	while(isRunning){
-            printMenu();
+            displayMenu();
             int input = GameDisplay.getUserInput(">> ", 3);
             switch (input) {
                 case 1:
-                    continueJourney();
+                    carryOn();
                     break;
                 case 2:
                     characterInfo();
@@ -85,56 +102,58 @@ public class GameLogic {
 	}
     }
     
-    //method to continue the journey 
-    public static void continueJourney(){
+
+    /**
+     *while act is different of 4 we make random room action such as
+     *battle/rest/shop depending of the act that's is checked before
+     */
+    public static void carryOn(){
         //check if act must be increased
 	checkAct();
 	//check if game isn't in last act
 	if(act != 4)
-            randomEncounter();
+            randomRoomAction();
     }
-    
-    //printing the main menu
-    public static void printMenu(){
-	GameDisplay.titlePrint(places[place],'#');
-        System.out.println();
-	System.out.println("Choose an action:");
-	GameDisplay.separatorPrint('#',20);
-	System.out.println("(1) Continue");
-	System.out.println("(2) Character Info");
-	System.out.println("(3) Exit Game");
-        GameDisplay.separatorPrint('#',20);
-    }
-    
-    //printing out the most important information about the player character
+   
+    /**
+     *Get all the character informations :
+     * Name / HP / MaxHP
+     * XP / Gold
+     * number of beers
+     */
     public static void characterInfo(){
 	GameDisplay.titlePrint("CHARACTER INFO",'#');
         System.out.println();
         GameDisplay.separatorPrint('.',20);
+        //player name, HP and max HP
 	System.out.println(player.getName() + "\tHP: " + player.getHP() + "/" + player.getMaxHP());
 	GameDisplay.separatorPrint('.',20);
 	//player xp and gold
 	System.out.println("XP: " + player.getXp() + "\tGold: " + player.gold);
 	GameDisplay.separatorPrint('.',20);
-	//# of pots
+	//number of beers
 	System.out.println("number of beers: " + player.beers);
 	GameDisplay.separatorPrint('.',20);
 	
-	//printing the chosen traits
+	//printing the chosen ability which can be offensive or defensive
 	if(player.nbrAtkAbility > 0){
-		System.out.println("Offensive trait: " + player.atkAbility[player.nbrAtkAbility - 1]);
+		System.out.println("Offensive ability: " + player.atkAbility[player.nbrAtkAbility - 1]);
 		GameDisplay.separatorPrint('.',20);
 	}
 	if(player.nbrDefAbility > 0){
-		System.out.println("Defensive trait: " + player.defAbility[player.nbrDefAbility - 1]);
+		System.out.println("Defensive ability: " + player.defAbility[player.nbrDefAbility - 1]);
                 GameDisplay.separatorPrint('.',20);
 	}
-	
-	GameDisplay.continueCommand();
-
+	GameDisplay.waitCommand();
     }
 
-    //method that changes the game's values based on player xp
+    
+    /**
+     *This method adapt the xp win by the player, 
+     *change and display the story for the different acts depending on the player XP
+     * it also adabt the roomAction List adding rest possibility from the act 2
+     * and shop possibility from the act 3
+     */
     public static void checkAct(){
             //change acts based on xp
                 if (player.getXp() == 1){
@@ -145,11 +164,11 @@ public class GameLogic {
 			//increment act and place
 			act = 2;
 			place = 1;
-                        encounters[3]="Rest";
+                        placeAction[3]="Rest";
 			//story
 			Story.displayFirstActOutro();
 			//let the player "level up"
-			player.chooseTrait();
+			player.skillUpgrade();
 			//story
 			Story.displaySecondActIntro();
 		}
@@ -157,11 +176,11 @@ public class GameLogic {
 			//increment act and place
 			act = 3;
 			place = 2;
-                        encounters[4]="Shop";
+                        placeAction[4]="Shop";
 			//story
 			Story.displaySecondActOutro();
 			//lvl up
-			player.chooseTrait();
+			player.skillUpgrade();
 			//Story
 			Story.displayThirdActIntro();
 			//fully heal the player
@@ -174,7 +193,7 @@ public class GameLogic {
 			//story
 			Story.displayThirdActOutro();
 			//lvl up
-			player.chooseTrait();
+			player.skillUpgrade();
 			//story
 			Story.displayFourthActIntro();
 			//fully heal the player
@@ -184,33 +203,48 @@ public class GameLogic {
             }
     }
 
-    //method to calculate a random encounter
-    public static void randomEncounter(){
-            //random number between 0 and the length of the encounters array
-            int encounter = (int) (Math.random()* encounters.length);
+    /**
+     *This method pick randomly one item in the roomAction array, depending on
+     * the result the appropriate metho is call
+     * Battle : randomBattle()
+     * Shop : Shop()
+     * default : takeRest()
+     */
+    public static void randomRoomAction(){
         //calling the respective methods
-        switch (encounters[encounter]) {
+        switch (placeAction[(int) (Math.random()* placeAction.length)]) {
             case "Battle":
                 randomBattle();
                 break;
-            case "Rest":
-                takeRest();
+            case "Shop":
+                shop();
                 break;
             default:
-                shop();
+                takeRest();
                 break;
         }
     }
         
-    //creating a random battle
+    /**
+     *This method permit the player to fight against a random ennemie whose
+     * stats are generated based on the player stats with a bit of random
+     * then we call the battle method in which the battle is start betwen player and enemy
+     */
     public static void randomBattle(){
 	GameDisplay.titlePrint("| You encountered an evil minded creature. You'll have to fight it! |",'=');
-	GameDisplay.continueCommand();
+	GameDisplay.waitCommand();
 	//creating new enemy with random name
-	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], (int) (Math.random()*player.getMaxHP() + player.getMaxHP()/3 + 5),(int) (Math.random()*(player.getXp()/4 + 4) + 1)));
+        String enemy_name=enemies[(int)(Math.random()*enemies.length)];
+        int enemy_maxHP = (int) (Math.random()*player.getMaxHP() + player.getMaxHP()/3 + 5);
+        int enemy_XP = (int) (Math.random()*(player.getXp()/4 + 4) + 1);
+        Enemy enemy = new Enemy(enemy_name, enemy_maxHP ,enemy_maxHP);
+	battle(enemy);
     }
     
-    //the main BATTLE method    
+    /**
+     *
+     * @param enemy
+     */
     public static void battle(Enemy enemy){
         OUTER:
         while (true) {
@@ -246,7 +280,7 @@ public class GameLogic {
                     System.out.println("You dealt " + dmg + " damage to the " + enemy.getName() + ".");
                     GameDisplay.separatorPrint('#',15);
                     System.out.println("The " + enemy.getName() + " dealt " + dmgTook + " damage to you.");
-                    GameDisplay.continueCommand();
+                    GameDisplay.waitCommand();
                     //check if player is still alive or dead
                     if (player.getHP() <= 0) {
                         playerDied(); //method to end the game
@@ -269,7 +303,7 @@ public class GameLogic {
                             player.gold += goldEarned;
                             System.out.println("You collect " + goldEarned + " gold from the " + enemy.getName() + "'s corpse!");
                         }
-                        GameDisplay.continueCommand();
+                        GameDisplay.waitCommand();
                         break OUTER;
                     }
                     break;
@@ -286,13 +320,13 @@ public class GameLogic {
                             //player actually took it
                             player.setHP(player.getMaxHP());
                             GameDisplay.headPrint("You drank a magic beer. It restored your health back to " + player.getMaxHP(),'#');
-                            GameDisplay.continueCommand();
+                            GameDisplay.waitCommand();
                         }
                     }
                     else{
                         //player CANNOT take a potion
                         GameDisplay.headPrint("You don't have any potions or you're at full health.",'#');
-                        GameDisplay.continueCommand();
+                        GameDisplay.waitCommand();
                     }
                     break;
                 default:
@@ -302,21 +336,21 @@ public class GameLogic {
                         //chance of 35% to escape
                         if (Math.random()*10 + 1 <= 3.5) {
                             GameDisplay.headPrint("You ran away from the " + enemy.getName() + "!",'#');
-                            GameDisplay.continueCommand();
+                            GameDisplay.waitCommand();
                             break OUTER;
                         } else {
                             GameDisplay.headPrint("You didn't manage to escape.",'#');
                             //calculate dmage the player takes
                             dmgTook = enemy.attack();
                             System.out.println("In your hurry you took " + dmgTook + " damage!");
-                            GameDisplay.continueCommand();
+                            GameDisplay.waitCommand();
                             //check if player's still alive
                             if(player.getHP() <= 0)
                                 playerDied();
                         }
                     } else {
                         GameDisplay.headPrint("YOU CANNOT ESCAPE YNCREA CAMPUS !!!",'#');
-                        GameDisplay.continueCommand();
+                        GameDisplay.waitCommand();
                     }
                     break;
             }
@@ -331,7 +365,7 @@ public class GameLogic {
             Data.saveData(player.getName(), player.getXp(), completed);
         }
         catch (IOException ex){
-            Logger.getLogger(GameLogic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(gameArchitecture.class.getName()).log(Level.SEVERE, null, ex);
         }
         isRunning = false;
     }
@@ -357,7 +391,7 @@ public class GameLogic {
 		}
                 else{
 			GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
                 }
 	}
 }
@@ -384,7 +418,7 @@ public class GameLogic {
                             System.out.println("You're at full health. You don't need to rest now!");
                         }
 		}
-		GameDisplay.continueCommand();
+		GameDisplay.waitCommand();
 	}
     }
     
@@ -399,7 +433,7 @@ public class GameLogic {
             Data.saveData(player.getName(), player.getXp(), completed);
         }
         catch (IOException ex){
-            Logger.getLogger(GameLogic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(gameArchitecture.class.getName()).log(Level.SEVERE, null, ex);
         }
 	isRunning = false;       
     }

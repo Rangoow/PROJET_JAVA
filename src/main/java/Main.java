@@ -5,11 +5,11 @@
  */
 
 /**
- *
- * @author noees
+ *Main class that run the game
+ * @author ESPARSA NOE
  */
 
-public class Test {
+public class Main {
     public static void main(String[] args){
         gameArchitecture.startGame();
 

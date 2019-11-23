@@ -5,12 +5,21 @@
  */
 
 /**
- *
- * @author noees
+ *Define the 2 main action use by both characters
+ * @author ESPARSA NOE
  */
 public interface Action {
     
+    /**
+     *declare the attack fonction which is common to Player and Enemy class
+     * @return
+     */
     public int attack();
+
+    /**
+     *declare the defend fonction which is common to Player and Enemy class
+     * @return
+     */
     public int defend();
     
 }

@@ -9,6 +9,9 @@ import java.util.logging.Logger;
  * @author NOE_ESPARSA 
  */
 
+/**
+ * Class that permit to run all the game throught differents methods
+ */
 
 public class gameArchitecture {
     
@@ -171,12 +174,15 @@ public class gameArchitecture {
 			player.skillUpgrade();
 			//story
 			Story.displaySecondActIntro();
+                        //player.setHP(player.getMaxHP());
+
 		}
-                else if(player.getXp() >= 20 && act == 2){
+                else if(player.getXp() >= 30 && act == 2){
 			//increment act and place
 			act = 3;
 			place = 2;
-                        placeAction[4]="Shop";
+                        placeAction[4]="Rest";
+                        placeAction[5]="Shop";
 			//story
 			Story.displaySecondActOutro();
 			//lvl up
@@ -186,7 +192,7 @@ public class gameArchitecture {
 			//fully heal the player
 			player.setHP(player.getMaxHP());
 		}
-                else if(player.getXp() >= 30 && act == 3){
+                else if(player.getXp() >= 50 && act == 3){
 			//increment act and place
 			act = 4;
 			place = 3;
@@ -234,11 +240,7 @@ public class gameArchitecture {
 	GameDisplay.titlePrint("| You encountered an evil minded creature. You'll have to fight it! |",'=');
 	GameDisplay.waitCommand();
 	//creating new enemy with random name
-        String enemy_name=enemies[(int)(Math.random()*enemies.length)];
-        int enemy_maxHP = (int) (Math.random()*player.getMaxHP() + player.getMaxHP()/3 + 5);
-        int enemy_XP = (int) (Math.random()*(player.getXp()/4 + 4) + 1);
-        Enemy enemy = new Enemy(enemy_name, enemy_maxHP ,enemy_maxHP);
-	battle(enemy);
+	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], player.getXp()));
     }
     
     /**
@@ -269,14 +271,15 @@ public class gameArchitecture {
             System.out.println("(2) Drink beer (to restore HP)");
             System.out.println("(3) Run Away");
             int input = GameDisplay.getUserInput(">> ", 3);
-            //react accordingly to player inpu
-            int dmgTook;
+            //react accordingly to player input
             switch (input) {
                 case 1:
                     //FIGHT OPTION
-                    //calculate dmg (dmg deals to enemy) and dmgTook (dmg enemy deals to player)
+                    //calculate dmg (dmg deals to enemy) and dmgTook (dmg enemy deals to player)                   
                     int dmg = player.attack() - enemy.defend();
-                    dmgTook = enemy.attack() - player.defend();
+                    int dmgTook = enemy.attack() - player.defend();
+                    System.out.println(dmg);
+                    System.out.println(dmgTook);
                     //check that dmg and dmgTook isn't negative
                     if(dmgTook < 0){
                         //add some dmg if player defends very well
@@ -304,12 +307,13 @@ public class gameArchitecture {
                         //tell the player he won
                         GameDisplay.titlePrint("You defeated the " + enemy.getName() + "!",'#');
                         //increase player xp by collecting ennemy's XP and increase by 2 the player's HP
-                        player.setXp(player.getXp()+enemy.getXp());
+                        player.setXp(enemy.getXp());
+                        player.setHP(player.getHP()+2);
                         player.setMaxHP(player.getMaxHP()+2);
                         System.out.println("You earned "+ enemy.getXp() + " XP!");
                         //permit the player to randomly earned rest and Gold
                         boolean addRest = (Math.random()*5 + 1 <= 2.25);
-                        int goldEarned = (int) (Math.random()*enemy.getXp());
+                        int goldEarned = (int) (Math.random()*enemy.getXp()+2);
                         if(addRest){
                             player.restsLeft++;
                             System.out.println("You earned the chance to get an additional rest!");
@@ -473,7 +477,7 @@ public class gameArchitecture {
      */
     public static void finalBattle(){
 	//create the final boss entity and then start the battle against him, his stats are based on player's one
-        Enemy finalBoss = new Enemy("CAMPUS YNCREA", player.getMaxHP()*3,player.getXp());
+        Enemy finalBoss = new Enemy("CAMPUS YNCREA",300);
 	battle(finalBoss);
         //display the end and certified the player finsih the game
         Story.displayEndOfTheGame(player);

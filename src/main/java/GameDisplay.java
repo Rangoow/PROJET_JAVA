@@ -8,14 +8,18 @@ import java.util.Scanner;
  */
 
 /**
- *
- * @author noees
+ *Class that is used to implement all the methods needed for the game display
+ * @author ESPARSA NOE
  */
 public class GameDisplay {
     
     static Scanner scanner = new Scanner(System.in);
     
-    //Print specific separator number
+    /**
+     * Print a certain value of a specific character
+     * @param separator
+     * @param n
+     */
     public static void separatorPrint(char separator, int n){
         for(int i=0; i<n; i++){
             System.out.print(separator);
@@ -23,8 +27,11 @@ public class GameDisplay {
         System.out.println();
     }
     
-
-    //Print head of the game
+    /**
+     *Print an head title with a special character as decoration
+     * @param headTitle
+     * @param separator
+     */
     public static void headPrint(String headTitle, char separator){
         separatorPrint(separator,136);
         System.out.print(separator + "----------------------------------------------------------  ");
@@ -33,20 +40,27 @@ public class GameDisplay {
         separatorPrint(separator,136);    
     }    
 
-
-    //Print title during the game
+    /**
+     *Print a title with a special character as decoration
+     * @param title
+     * @param separator
+     */
     public static void titlePrint(String title,char separator){
         separatorPrint(separator,title.length());
         System.out.println(title);
         separatorPrint(separator,title.length());
     }
 
-    
-    //Get user input
-    public static int getUserInput(String choiceString, int choicesNumber){
+    /**
+     *Permit to get the user input between a specific number of choice
+     * @param inputLine
+     * @param choicesNumber
+     * @return
+     */
+    public static int getUserInput(String inputLine, int choicesNumber){
         int input;
         do{
-            System.out.print(choiceString);
+            System.out.print(inputLine);
             try{
                 input = Integer.parseInt(scanner.next());
             } 
@@ -59,7 +73,9 @@ public class GameDisplay {
         return input;
     }
     
-    //Wait user input
+    /**
+     *Permit to make a pause during the game waiting the user tap on enter to proceed
+     */
     public static void waitCommand(){
         System.out.println("\nPress a enter to continue...");
         scanner.nextLine();

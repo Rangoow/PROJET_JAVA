@@ -29,7 +29,7 @@ public final class Player extends Character implements Action{
             //let player choose a trait when creating
             skillUpgrade();
             
-            this.gold = 5;
+            this.gold = 50;
             this.restsLeft = 1;
             this.beers = 0;
         }

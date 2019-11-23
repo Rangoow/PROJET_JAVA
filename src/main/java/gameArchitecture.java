@@ -26,7 +26,7 @@ public class gameArchitecture {
     
     //String arrays that contain possible places, places action (Battle,rest,shop) and ennemies 
     public static String[] places = {"ATRYIUM", "AMPHI JND", "B805", "A918"};
-    public static String[] placeAction = {"Battle", "Battle", "Battle", "Battle" ,"Battle"}; 
+    public static String[] placeAction = {"Battle", "Battle", "Battle", "Battle" ,"Battle","Battle"}; 
     public static String[] enemies = {"HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ICAM STUDENT", "HEI STUDENT", "ISA STUDENT", "LA CATHO STUDENT" };
 
 
@@ -242,7 +242,20 @@ public class gameArchitecture {
     }
     
     /**
-     *
+     *This method create a battle between the player and an enemy,
+     *there are 3 possibilitu for the player :
+     *      Fight :
+     *          each one (player and ennemy while attack and defend at the same time,
+     *          then we calculate the damage took by each other
+     *          the battle end when one die, if the player win he earns XP of the ennemies.
+     *          You also have a chance to gain a rest at the end of a battle if you win.
+     *          
+     *      use a beer :
+     *          Permit to restore some HP.
+     * 
+     *      run away :
+     *          Permit tro try to escape from the battle, the player have 35% chance to succeed
+     * 
      * @param enemy
      */
     public static void battle(Enemy enemy){
@@ -253,15 +266,15 @@ public class gameArchitecture {
             System.out.println("Choose an action:");
             GameDisplay.separatorPrint('.',20);
             System.out.println("(1) Fight ");
-            System.out.println("(2) Use Potion");
+            System.out.println("(2) Drink beer (to restore HP)");
             System.out.println("(3) Run Away");
             int input = GameDisplay.getUserInput(">> ", 3);
             //react accordingly to player inpu
             int dmgTook;
             switch (input) {
                 case 1:
-                    //FIGHT
-                    //calculate dmg and dmgTook (dmg enemy deals to player)
+                    //FIGHT OPTION
+                    //calculate dmg (dmg deals to enemy) and dmgTook (dmg enemy deals to player)
                     int dmg = player.attack() - enemy.defend();
                     dmgTook = enemy.attack() - player.defend();
                     //check that dmg and dmgTook isn't negative
@@ -272,10 +285,10 @@ public class gameArchitecture {
                     }
                     if(dmg < 0)
                         dmg = 0;
-                    //deal damge to both parties
+                    //deal damage to both entity
                     player.setHP(player.getHP()-dmgTook);
                     enemy.setHP(enemy.getHP()-dmg);
-                    //print the info of this battle round
+                    //display the result of this battle round (new HP of each part)
                     GameDisplay.headPrint("    BATTLE    ",'#');
                     System.out.println("You dealt " + dmg + " damage to the " + enemy.getName() + ".");
                     GameDisplay.separatorPrint('#',15);
@@ -284,15 +297,17 @@ public class gameArchitecture {
                     //check if player is still alive or dead
                     if (player.getHP() <= 0) {
                         playerDied(); //method to end the game
-                        break OUTER;
-                    } else if (enemy.getHP() <= 0) {
+                        break OUTER; 
+                    }
+                    //check if enemy is dead,
+                    else if (enemy.getHP() <= 0) {
                         //tell the player he won
                         GameDisplay.titlePrint("You defeated the " + enemy.getName() + "!",'#');
-                        //increase player xp
+                        //increase player xp by collecting ennemy's XP and increase by 2 the player's HP
                         player.setXp(player.getXp()+enemy.getXp());
                         player.setMaxHP(player.getMaxHP()+2);
                         System.out.println("You earned "+ enemy.getXp() + " XP!");
-                        //random drops
+                        //permit the player to randomly earned rest and Gold
                         boolean addRest = (Math.random()*5 + 1 <= 2.25);
                         int goldEarned = (int) (Math.random()*enemy.getXp());
                         if(addRest){
@@ -308,37 +323,39 @@ public class gameArchitecture {
                     }
                     break;
                 case 2:
-                    //USE POTION (BEER)
+                    //USE BEER OPTION
+                    //Check if player have beers and he's not full health
                     if(player.beers > 0 && player.getHP() < player.getMaxHP()){
-                        //player CAN take a potion
                         //make sure player wants to drink the potion
-                        GameDisplay.headPrint("Do you want to drink a potion? (" + player.beers + " left).",'#');
+                        GameDisplay.headPrint("Do you want to drink a beer ? (" + player.beers + " left).",'#');
                         System.out.println("(1) Yes");
                         System.out.println("(2) No, maybe later");
                         input = GameDisplay.getUserInput(">> ", 2);
                         if(input == 1){
-                            //player actually took it
+                            //player drink beer so his health is fully restored
                             player.setHP(player.getMaxHP());
-                            GameDisplay.headPrint("You drank a magic beer. It restored your health back to " + player.getMaxHP(),'#');
+                            GameDisplay.headPrint("You drank a magical beer. It restored your health back to " + player.getMaxHP(),'#');
                             GameDisplay.waitCommand();
                         }
                     }
                     else{
-                        //player CANNOT take a potion
+                        //player is not able to drink a beer
                         GameDisplay.headPrint("You don't have any potions or you're at full health.",'#');
                         GameDisplay.waitCommand();
                     }
                     break;
                 default:
-                    //RUN AWAY
-                    //check that player isn't in last act (final boss battle)
+                    //RUN AWAY OPTION
+                    //check that player isn't in last act because he can't escape the final boss
                     if (act != 4) {
-                        //chance of 35% to escape
+                        //35% chance to escape the fight
                         if (Math.random()*10 + 1 <= 3.5) {
                             GameDisplay.headPrint("You ran away from the " + enemy.getName() + "!",'#');
                             GameDisplay.waitCommand();
                             break OUTER;
-                        } else {
+                        }
+                        //if the player didn't succed in escaping, he took damage without defend and attacking back
+                        else {
                             GameDisplay.headPrint("You didn't manage to escape.",'#');
                             //calculate dmage the player takes
                             dmgTook = enemy.attack();
@@ -348,7 +365,9 @@ public class gameArchitecture {
                             if(player.getHP() <= 0)
                                 playerDied();
                         }
-                    } else {
+                    }
+                    //player can't escape final boss
+                    else {
                         GameDisplay.headPrint("YOU CANNOT ESCAPE YNCREA CAMPUS !!!",'#');
                         GameDisplay.waitCommand();
                     }
@@ -370,71 +389,103 @@ public class gameArchitecture {
         isRunning = false;
     }
     
-    //shopping / encountering a travelling trader
+    /**
+     *Pemrit the player to  buy stuff like beers to restore health or redbulls to earn xp
+     */
     public static void shop(){
-	GameDisplay.titlePrint("You meet a mysterious stranger at the ZYTHO.\nHe offers you something:",'#');
-	int price = (int) (Math.random()* (10 + player.beers*3) + 10 + player.beers);
-	System.out.println("- Magic beer: " + price + " gold.");
+	GameDisplay.titlePrint("It's wednesday, you are at the ZYTHO.\nSomeone offers you something:",'#');
+	int beerPrice = (int) (Math.random()* (10 + player.beers*3) + 10 + player.beers);
+        int xpPrice = beerPrice/2;
+        int xpBonus = 10;
+	System.out.println("(1) Magic beer : " + beerPrice + " gold.");
+        System.out.println("(2) Powerfull RedBull :" + xpPrice + " gold.");
+        System.out.println("(3) No thanks !");
 	GameDisplay.separatorPrint('#',20);
 	//ask the player to buy one
-	System.out.println("Do you want to buy one ?");
-        System.out.println("(1) Yes!");
-        System.out.println("(2) No thanks.");
+        System.out.println("Do you want to buy something ?");
 	int input = GameDisplay.getUserInput(">> ", 2);
-	//check if player wants to buy
-	if(input == 1){
-		//check if player has enough gold
-		if(player.gold >= price){
-			GameDisplay.headPrint("You bought a magical beer " + price + "gold.",'#');
-			player.beers++;
-			player.gold -= price;
+        switch (input){
+            case 1:
+                //check if player has enough gold
+		if(player.gold >= beerPrice){
+                    GameDisplay.headPrint("You bought a magical beer " + beerPrice + "gold.",'#');
+                    player.beers++;
+                    player.gold -= beerPrice;
 		}
+                //if not tell him               
                 else{
-			GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
-		GameDisplay.waitCommand();
+                    GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
+                    GameDisplay.waitCommand();
                 }
-	}
-}
+                break;
+            case 2:
+                //check if player has enough gold
+		if(player.gold >= xpPrice){
+                    GameDisplay.headPrint("You bought a powerfull Redbull " + xpPrice + "gold.",'#');
+                    player.gold -= xpPrice;
+                    player.setXp(player.getXp()+xpBonus);
+		}
+                //if not tell him
+                else{
+                    GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
+                    GameDisplay.waitCommand();
+                }
+                break;
+            default:
+                GameDisplay.waitCommand();
+                break;          
+        }
+    }
     
-    //taking a rest
+    /**
+     *Pemrit the player to take a at the MI and restore HP
+     */
     public static void takeRest(){
         if(player.restsLeft >= 1){
-		GameDisplay.headPrint("Do you want to take a rest? (" + player.restsLeft + " rest(s) left).",'#');
-		System.out.println("(1) Yes !");
-                System.out.println("(2) No, not now.");
+		GameDisplay.headPrint("Do you want to take a rest at the MI? (" + player.restsLeft + " rest(s) left).",'#');
+		System.out.println("(1) Yes, I'm tired !");
+                System.out.println("(2) No, not now I'm still ready to figth.");
 		int input = GameDisplay.getUserInput(">> ", 2);
 		if(input == 1){
-			//player actually takes rest
+			//If player take a rest, restore randomly HP based on the player's xp
 			if(player.getHP() < player.getMaxHP()){
                             int hpRestored = (int) (Math.random() * (player.getXp()/4 + 1) + 10);
                             player.setHP(player.getHP()+ hpRestored);
+                            //case the Hp restored are superior to max HP, we just reset HP to full healt
                             if(player.getHP() > player.getMaxHP())
                                     player.setHP(player.getMaxHP());
-                            System.out.println("You took a rest and restored up to " + hpRestored + " health.");
+                            System.out.println("You took a long afternoon rest at the MI and restored up to " + hpRestored + " health.");
                             System.out.println("You're now at " + player.getHP() + "/" + player.getMaxHP() + " health.");
                             player.restsLeft--;
 			}
                         else{
-                            System.out.println("You're at full health. You don't need to rest now!");
+                            System.out.println("You're at full health you should go fight. You don't need to rest now!");
                         }
 		}
 		GameDisplay.waitCommand();
 	}
     }
     
-    //the final (last) battle of the entire game
+    /**
+     *This method permit the player to fight against a special enemy who is the final boss of the game
+     * this one is not in the enemy array
+     * The player can finish the game here.
+     */
     public static void finalBattle(){
-	//creating the evil emperor and letting the player fight against him
-	battle(new Enemy("CAMPUS YNCREA", 150,player.getXp()));
-	//printing the proper ending
-	Story.displayEndOfTheGame(player);
+	//create the final boss entity and then start the battle against him, his stats are based on player's one
+        Enemy finalBoss = new Enemy("CAMPUS YNCREA", player.getMaxHP()*3,player.getXp());
+	battle(finalBoss);
+        //display the end and certified the player finsih the game
+        Story.displayEndOfTheGame(player);
         completed = true;
+        //save data in txt file
         try {
             Data.saveData(player.getName(), player.getXp(), completed);
         }
         catch (IOException ex){
             Logger.getLogger(gameArchitecture.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //stop the main game loop
 	isRunning = false;       
     }
  

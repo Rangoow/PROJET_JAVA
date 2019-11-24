@@ -159,7 +159,7 @@ public class gameArchitecture {
      */
     public static void checkAct(){
             //change acts based on xp
-                if (player.getXp() == 1){
+                if (player.getXp() == 0){
                     Story.displayStoryIntro();
                     Story.displayFirstActIntro();
                 }
@@ -261,6 +261,7 @@ public class gameArchitecture {
      * @param enemy
      */
     public static void battle(Enemy enemy){
+        boolean win =false;
         OUTER:
         while (true) {
             GameDisplay.titlePrint(enemy.getName() + "\nHP: " + enemy.getHP() + "/" + enemy.getMaxHP(),'#');
@@ -305,7 +306,7 @@ public class gameArchitecture {
                         //tell the player he won
                         GameDisplay.titlePrint("You defeated the " + enemy.getName() + "!",'#');
                         //increase player xp by collecting ennemy's XP and increase by 2 the player's HP
-                        player.setXp(enemy.getXp());
+                        player.setXp(player.getXp() + enemy.getXp());
                         player.setHP(player.getHP()+2);
                         player.setMaxHP(player.getMaxHP()+2);
                         System.out.println("You earned "+ enemy.getXp() + " XP!");
@@ -320,6 +321,7 @@ public class gameArchitecture {
                             player.gold += goldEarned;
                             System.out.println("You collect " + goldEarned + " gold from the " + enemy.getName() + "'s corpse!");
                         }
+                        win=true;
                         GameDisplay.waitCommand();
                         break OUTER;
                     }
@@ -361,6 +363,7 @@ public class gameArchitecture {
                             GameDisplay.headPrint("You didn't manage to escape.",'#');
                             //calculate dmage the player takes
                             dmgTook = enemy.attack();
+                            player.setHP(player.getHP()-dmgTook);
                             System.out.println("In your hurry you took " + dmgTook + " damage!");
                             GameDisplay.waitCommand();
                             //check if player's still alive
@@ -378,10 +381,13 @@ public class gameArchitecture {
         }
     }
         
-    //method that gets called when the player is dead
+
+    /**
+     *Method called if the player is dead to show how much xp he earn, save his data and stop the game
+     */
     public static void playerDied(){
-        GameDisplay.headPrint("You died...",'#');
-        GameDisplay.headPrint("You earned " + player.getXp() + " XP on your journey. Try to earn more next time!",'#');
+        GameDisplay.headPrint(" You died ... ",'#');
+        GameDisplay.titlePrint("You earned " + player.getXp() + " XP on your journey. Try to earn more next time!",'#');
         try {
             Data.saveData(player.getName(), player.getXp(), completed);
         }
@@ -396,6 +402,7 @@ public class gameArchitecture {
      */
     public static void shop(){
 	GameDisplay.titlePrint("It's wednesday, you are at the ZYTHO.\nSomeone offers you something:",'#');
+        GameDisplay.titlePrint("You have actually" + player.gold + "gold to spend.", '#');
 	int beerPrice = (int) (Math.random()* (10 + player.beers*3) + 10 + player.beers);
         int xpPrice = beerPrice/2;
         int xpBonus = 10;
@@ -410,26 +417,26 @@ public class gameArchitecture {
             case 1:
                 //check if player has enough gold
 		if(player.gold >= beerPrice){
-                    GameDisplay.headPrint("You bought a magical beer " + beerPrice + "gold.",'#');
+                    GameDisplay.titlePrint("You bought a magical beer " + beerPrice + "gold.",'#');
                     player.beers++;
                     player.gold -= beerPrice;
 		}
                 //if not tell him               
                 else{
-                    GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
+                    GameDisplay.titlePrint("You don't have enough gold to buy this...",'-');
                     GameDisplay.waitCommand();
                 }
                 break;
             case 2:
                 //check if player has enough gold
 		if(player.gold >= xpPrice){
-                    GameDisplay.headPrint("You bought a powerfull Redbull " + xpPrice + "gold.",'#');
+                    GameDisplay.titlePrint("You bought a powerfull Redbull " + xpPrice + "gold.",'#');
                     player.gold -= xpPrice;
                     player.setXp(player.getXp()+xpBonus);
 		}
                 //if not tell him
                 else{
-                    GameDisplay.headPrint("You don't have enough gold to buy this...",'#');
+                    GameDisplay.titlePrint("You don't have enough gold to buy this...",'-');
                     GameDisplay.waitCommand();
                 }
                 break;
@@ -444,7 +451,7 @@ public class gameArchitecture {
      */
     public static void takeRest(){
         if(player.restsLeft >= 1){
-		GameDisplay.headPrint("Do you want to take a rest at the MI? (" + player.restsLeft + " rest(s) left).",'#');
+		GameDisplay.titlePrint("Do you want to take a rest at the MI? (" + player.restsLeft + " rest(s) left).",'#');
 		System.out.println("(1) Yes, I'm tired !");
                 System.out.println("(2) No, not now I'm still ready to figth.");
 		int input = GameDisplay.getUserInput(">> ", 2);
@@ -475,7 +482,7 @@ public class gameArchitecture {
      */
     public static void finalBattle(){
 	//create the final boss entity and then start the battle against him, his stats are based on player's one
-        Enemy finalBoss = new Enemy("CAMPUS YNCREA",300);
+        Enemy finalBoss = new Enemy("CAMPUS YNCREA",player.getMaxHP()*10);
 	battle(finalBoss);
         //display the end and certified the player finsih the game
         Story.displayEndOfTheGame(player);
@@ -488,7 +495,7 @@ public class gameArchitecture {
             Logger.getLogger(gameArchitecture.class.getName()).log(Level.SEVERE, null, ex);
         }
         //stop the main game loop
-	isRunning = false;       
+        isRunning = false;      
     }
  
     

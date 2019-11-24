@@ -237,7 +237,7 @@ public class gameArchitecture {
      * then we call the battle method in which the battle is start betwen player and enemy
      */
     public static void randomBattle(){
-	GameDisplay.titlePrint("| You encountered an evil minded creature. You'll have to fight it! |",'=');
+	GameDisplay.titlePrint("| You met a student from an opposing school. You must fight him! |",'=');
 	GameDisplay.waitCommand();
 	//creating new enemy with random name
 	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], player.getXp()));
@@ -395,6 +395,7 @@ public class gameArchitecture {
             Logger.getLogger(gameArchitecture.class.getName()).log(Level.SEVERE, null, ex);
         }
         isRunning = false;
+        System.exit(0);
     }
     
     /**
@@ -402,7 +403,7 @@ public class gameArchitecture {
      */
     public static void shop(){
 	GameDisplay.titlePrint("It's wednesday, you are at the ZYTHO.\nSomeone offers you something:",'#');
-        GameDisplay.titlePrint("You have actually" + player.gold + "gold to spend.", '#');
+        GameDisplay.titlePrint("You have actually " + player.gold + "gold to spend.", '#');
 	int beerPrice = (int) (Math.random()* (10 + player.beers*3) + 10 + player.beers);
         int xpPrice = beerPrice/2;
         int xpBonus = 10;
@@ -482,7 +483,7 @@ public class gameArchitecture {
      */
     public static void finalBattle(){
 	//create the final boss entity and then start the battle against him, his stats are based on player's one
-        Enemy finalBoss = new Enemy("CAMPUS YNCREA",player.getMaxHP()*10);
+        Enemy finalBoss = new Enemy("CAMPUS YNCREA",player.getMaxHP()*3);
 	battle(finalBoss);
         //display the end and certified the player finsih the game
         Story.displayEndOfTheGame(player);

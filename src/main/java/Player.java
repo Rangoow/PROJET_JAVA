@@ -32,8 +32,8 @@ public final class Player extends Character implements Action{
         //let player choose a trait when creating
         skillUpgrade();  
         this.gold = 5;
-        this.restsLeft = 1;
-        this.beers = 0;
+        this.restsLeft = 0 ;
+        this.beers = 3;
     }
 
     /**

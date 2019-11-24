@@ -17,10 +17,10 @@ public class Story {
     public static void displayStoryIntro(){
         GameDisplay.headPrint("    STORY     ",'#');	
         System.out.println();
-        System.out.println("Tu viens de te reveiller, il est 12h30, journée normale. Tu fonces sur ta boite mail et ....");
-        System.out.println("TU ES ADMIS A ISEN LILLE !");
+        System.out.println("You just woke up, it is 12:30, normal day. You go on your mailbox and ....");
+        System.out.println("YOU ARE ADMITTED TO ISEN LILLE!");
         System.out.println();
-        System.out.println("Te voila en route direction Lille, seul, sans amis, avec une seule idée en tête, le diplome ISEN.");
+        System.out.println("Here you are on your way to Lille, alone, without friends, with only one idea in mind, the ISEN graduate.");
     }
 	
     /**
@@ -29,9 +29,9 @@ public class Story {
     public static void displayFirstActIntro(){
         GameDisplay.headPrint("ACT I - INTRO ",'#');
         System.out.println();
-        System.out.println("Après des au-revoirs en tout genre, tu roules direction Lille, laissant le  soleil derrière toi.");
-        System.out.println("Après un long trajet, et la pose de pneus pluie, te voila arrivé à LILLE !");
-        System.out.println("Malgrès toutes les rumeurs sur le Nord, tu décides de ne pas les prendre en compte et te prépare pour la rentrée");
+        System.out.println("After all kinds of goodbyes, you drive towards Lille, leaving the sun behind you.");
+        System.out.println("After a long journey, and the laying of rain tires, here you are, arrived at LILLE!");
+        System.out.println("Despite all the rumors about the North, you decide not to take them into account and prepare you for the class");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -42,9 +42,9 @@ public class Story {
     public static void displayFirstActOutro(){
         GameDisplay.headPrint("ACT I - OUTRO ",'#');
         System.out.println();
-        System.out.println("Ca y est le grand jour est arrivé !  Tu t'es fait tout beau, ton sac est prêt !");
-        System.out.println("Tu rencontres tes ami(e)s et te sent un peu moins seul..");
-        System.out.println("Cependant tout n'est pas encore gagné, des méchants trainnent dans les parrages....");
+        System.out.println("This is the big day has arrived! You're all beautiful, your bag is ready!");
+        System.out.println("You meet your friends and feel a little less alone ..");
+        System.out.println("However all is not yet won, bad guys hang in the parrages ....");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -55,9 +55,9 @@ public class Story {
     public static void displaySecondActIntro(){
         GameDisplay.headPrint("ACT II- INTRO",'#');
         System.out.println();
-        System.out.println("Lundi matin, 12h30 : BIP BIP BIP ");
-        System.out.println("Tu as oublier que les vacances sont finis, ça commence mal...");
-        System.out.println("Donne tout pour rattraper ce retard ...");
+        System.out.println("Monday morning, 12:30 pm: BEEP BEEP BEEP");
+        System.out.println("You have forgotten that the holidays are over, it starts badly ...");
+        System.out.println("Give everything to catch up ...");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -68,9 +68,9 @@ public class Story {
     public static void displaySecondActOutro(){
         GameDisplay.headPrint("ACT II- OUTRO",'#');
         System.out.println();
-        System.out.println("L'année est finis ! Tu as eu la moyenne à tout tes modules ! ");
-        System.out.println("FELICITATION !!");
-        System.out.println("Tu choisis tes spé et blablabla");
+        System.out.println("The year is over! You had the average to all your modules! ");
+        System.out.println("CONGRATULATIONS !!");
+        System.out.println("You choose your specialization and go to Ibaza for maybe the last time");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -81,8 +81,8 @@ public class Story {
     public static void displayThirdActIntro(){
         GameDisplay.headPrint("ACT III-INTRO",'#');
         System.out.println();
-        System.out.println("Te voilà maintenant en 4eme année, tu te rends rapidement compte du choix douteux de tes différents modules..");
-        System.out.println("BLABLABLA");
+        System.out.println("You are now in the 4th year, you quickly realize the questionable choice of your different modules.");
+        System.out.println("Will you survive to the Java class ? ");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -93,9 +93,9 @@ public class Story {
     public static void displayThirdActOutro(){
         GameDisplay.headPrint("ACTIII- OUTRO",'#');
         System.out.println();
-        System.out.println("L'année est finis ! Tu as eu la moyenne à tout tes modules ! ");
-        System.out.println("FELICITATION !!");
-        System.out.println("Tu choisis tes spé et blablabla");
+        System.out.println("The year is over! You had the average to all your modules! ");
+        System.out.println("CONGRATULATIONS !!");
+        System.out.println("You make big kisses to your friends and go on an internship for 4 months");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -106,10 +106,10 @@ public class Story {
     public static void displayFourthActIntro(){
         GameDisplay.headPrint("ACT IV- INTRO",'#');
         System.out.println();
-        System.out.println("Tu y es, la cinquième année ouvre ses portes !");
+        System.out.println("You are there, the fifth year opens its doors!");
         System.out.println("WARNING WARNING WARNING ");
-        System.out.println("Ton diplome ISEN est menacé par YNCREA !");
-        System.out.println("Défend toi ou devient un HEI");
+        System.out.println("Your ISEN degree is threatened by YNCREA!");
+        System.out.println("Defend yourself or become a HEI");
         System.out.println();
         GameDisplay.waitCommand();
     }
@@ -119,8 +119,8 @@ public class Story {
      * @param player
      */
     public static void displayEndOfTheGame(Player player){
-        System.out.println("Felicitation, " + player.getName() + "! Tu as vaincu YNCREA CAMPUS");
-        System.out.println("Longue vie au diplôme ISEN !!!");
+        System.out.println("CONGRATULATIONS, " + player.getName() + "! You defeated YNCREA CAMPUS");
+        System.out.println("Long live the ISEN diploma !!!");
         System.out.println();
         System.out.println("THE END !");
     }

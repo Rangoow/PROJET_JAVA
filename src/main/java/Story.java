@@ -6,7 +6,7 @@
 
 /**
  *Class that store all the different story part
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 
 public class Story {

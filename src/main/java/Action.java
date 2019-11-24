@@ -6,7 +6,7 @@
 
 /**
  *Define the 2 main action use by both characters
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 public interface Action {
     

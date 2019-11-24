@@ -6,7 +6,7 @@
 
 /**
  *Mother Class that permit to create a Character which after can be Player or an enemy
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 public abstract class Character {
     //Attributes

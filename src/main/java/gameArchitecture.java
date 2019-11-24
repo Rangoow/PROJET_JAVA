@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * ISEN-LILLE M1 JAVA PROJECT 2019
- * @author NOE_ESPARSA 
+ * @author NOE_ESPARSA & DUBOIS THOMAS 
  */
 
 /**
@@ -25,7 +25,8 @@ public class gameArchitecture {
     public static boolean completed = false;
     
     //Int that control the place and the act of the game
-    public static int place = 0, act=1;
+    public static int place = 0;
+    public static int act=1;
     
     //String arrays that contain possible places, places action (Battle,rest,shop) and ennemies 
     public static String[] places = {"ATRYIUM", "AMPHI JND", "B805", "A918"};
@@ -40,7 +41,7 @@ public class gameArchitecture {
         boolean nameSet= false;
         String name;
         
-        //Print title screen
+        //Display game Head title
         GameDisplay.headPrint("  YNCREA RPG  ",'#');
         GameDisplay.waitCommand();
         
@@ -48,7 +49,6 @@ public class gameArchitecture {
         do{
             GameDisplay.titlePrint("What's your name?",'#');
             name = scanner.next();
-            //asking the player if he wants to correct his choice
             GameDisplay.titlePrint("Your name is " + name + ". Is that correct?",'#');
             System.out.println("(1) Yes!");
             System.out.println("(2) No, I want to change my name ! ");
@@ -57,14 +57,14 @@ public class gameArchitecture {
                     nameSet = true;
         }while(nameSet == false);
         
-        //create new player object with the name
+        //create new player named as the input
         player = new Player(name);
 
-        //start main game loop (next part)
+        //start main game loop
         gameLoop();
     }
 
-        /**
+     /**
      *Display the main menu link to the game loop to choose between : 
      *      continue the adventure
      *      get inforamtions about your character
@@ -89,7 +89,9 @@ public class gameArchitecture {
      */
     public static void gameLoop(){
 	while(isRunning){
+            //after each action we display the menu 
             displayMenu();
+            //and ask to do an other action
             int input = GameDisplay.getUserInput(">> ", 3);
             switch (input) {
                 case 1:
@@ -111,9 +113,9 @@ public class gameArchitecture {
      *battle/rest/shop depending of the act that's is checked before
      */
     public static void carryOn(){
-        //check if act must be increased
+        //check if the stroy have to continue to an other act
 	checkAct();
-	//check if game isn't in last act
+	//ccheck if it's not the final act, because it contain the final boss only
 	if(act != 4)
             randomRoomAction();
     }
@@ -168,7 +170,7 @@ public class gameArchitecture {
 			act = 2;
 			place = 1;
                         placeAction[3]="Rest";
-			//story
+			//display the story text
 			Story.displayFirstActOutro();
 			//let the player "level up"
 			player.skillUpgrade();
@@ -183,9 +185,9 @@ public class gameArchitecture {
 			place = 2;
                         placeAction[4]="Rest";
                         placeAction[5]="Shop";
-			//story
+			//display the story text
 			Story.displaySecondActOutro();
-			//lvl up
+			//let the player "level up"
 			player.skillUpgrade();
 			//Story
 			Story.displayThirdActIntro();
@@ -196,15 +198,15 @@ public class gameArchitecture {
 			//increment act and place
 			act = 4;
 			place = 3;
-			//story
+			//display the story text
 			Story.displayThirdActOutro();
-			//lvl up
+			//let the player "level up"
 			player.skillUpgrade();
 			//story
 			Story.displayFourthActIntro();
 			//fully heal the player
 			player.setHP(player.getMaxHP());
-			//calling the final battle
+			//calling the final battle method
 			finalBattle();
             }
     }
@@ -217,7 +219,6 @@ public class gameArchitecture {
      * default : takeRest()
      */
     public static void randomRoomAction(){
-        //calling the respective methods
         switch (placeAction[(int) (Math.random()* placeAction.length)]) {
             case "Battle":
                 randomBattle();
@@ -239,7 +240,7 @@ public class gameArchitecture {
     public static void randomBattle(){
 	GameDisplay.titlePrint("| You met a student from an opposing school. You must fight him! |",'=');
 	GameDisplay.waitCommand();
-	//creating new enemy with random name
+	//creating new enemy with random name chose in the enemy array
 	battle(new Enemy(enemies[(int)(Math.random()*enemies.length)], player.getXp()));
     }
     
@@ -272,7 +273,6 @@ public class gameArchitecture {
             System.out.println("(2) Drink beer (to restore HP)");
             System.out.println("(3) Run Away");
             int input = GameDisplay.getUserInput(">> ", 3);
-            //react accordingly to player input
             switch (input) {
                 case 1:
                     //FIGHT OPTION
@@ -338,13 +338,14 @@ public class gameArchitecture {
                         if(input == 1){
                             //player drink beer so his health is fully restored
                             player.setHP(player.getMaxHP());
-                            GameDisplay.headPrint("You drank a magical beer. It restored your health back to " + player.getMaxHP(),'#');
+                            GameDisplay.titlePrint("You drank a magical beer. It restored your health back to " + player.getMaxHP(),'#');
+                            player.beers--;
                             GameDisplay.waitCommand();
                         }
                     }
                     else{
                         //player is not able to drink a beer
-                        GameDisplay.headPrint("You don't have any potions or you're at full health.",'#');
+                        GameDisplay.titlePrint("You don't have any potions or you're at full health.",'#');
                         GameDisplay.waitCommand();
                     }
                     break;
@@ -361,7 +362,7 @@ public class gameArchitecture {
                         //if the player didn't succed in escaping, he took damage without defend and attacking back
                         else {
                             GameDisplay.headPrint("You didn't manage to escape.",'#');
-                            //calculate dmage the player takes
+                            //calculate damage the player takes
                             dmgTook = enemy.attack();
                             player.setHP(player.getHP()-dmgTook);
                             System.out.println("In your hurry you took " + dmgTook + " damage!");
@@ -411,7 +412,6 @@ public class gameArchitecture {
         System.out.println("(2) Powerfull RedBull :" + xpPrice + " gold.");
         System.out.println("(3) No thanks !");
 	GameDisplay.separatorPrint('#',20);
-	//ask the player to buy one
         System.out.println("Do you want to buy something ?");
 	int input = GameDisplay.getUserInput(">> ", 2);
         switch (input){
@@ -461,7 +461,7 @@ public class gameArchitecture {
 			if(player.getHP() < player.getMaxHP()){
                             int hpRestored = (int) (Math.random() * (player.getXp()/4 + 1) + 10);
                             player.setHP(player.getHP()+ hpRestored);
-                            //case the Hp restored are superior to max HP, we just reset HP to full healt
+                            //case the Hp restored are superior to max HP, we just reset HP to full health
                             if(player.getHP() > player.getMaxHP())
                                     player.setHP(player.getMaxHP());
                             System.out.println("You took a long afternoon rest at the MI and restored up to " + hpRestored + " health.");

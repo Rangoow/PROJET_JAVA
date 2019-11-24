@@ -6,7 +6,7 @@
 
 /**
  *Class that permit to create a Player
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 
 public final class Player extends Character implements Action{
@@ -20,16 +20,14 @@ public final class Player extends Character implements Action{
     public String[] defAbility = {"VOLTAIRE CERTIFICATE","INTERNATIONAL BREAK VALIDATED","CONTRAT PRO","STRONG LIVER"};
 
     /**
-     * Player specific constructor
+     * Player specific constructor, at the creation the player can choose a specific skill
      * @param name
      */
     public Player(String name){
         //calling super class constructor
         super(name,10,0);
-        //Setting upgrade number to 0
         this.nbrAtkAbility = 0;
         this.nbrDefAbility = 0;
-        //let player choose a trait when creating
         skillUpgrade();  
         this.gold = 5;
         this.restsLeft = 0 ;
@@ -42,7 +40,6 @@ public final class Player extends Character implements Action{
      */
     @Override
     public int attack() {
-        // TODO Auto-generated method stub
         return (int) (Math.random()*(this.getXp()/4 + this.nbrAtkAbility*3 + 3) + this.getXp()/10 + this.nbrAtkAbility*2 + this.nbrDefAbility + 1);
     }
 
@@ -53,7 +50,6 @@ public final class Player extends Character implements Action{
      */        
     @Override
     public int defend() {
-        // TODO Auto-generated method stub
         return (int) (Math.random()*(this.getXp()/4 + this.nbrDefAbility*3 + 3) + this.getXp()/10 + this.nbrDefAbility*2 + this.nbrAtkAbility + 1);
     }
 
@@ -61,17 +57,18 @@ public final class Player extends Character implements Action{
      *Method that permit the player to choose a new skill defensive or offensive
      */
     public void skillUpgrade(){
-        GameDisplay.titlePrint("Choose a skill : ",'#');
+        GameDisplay.titlePrint("Choose a skill (Offensive or Defensive) : ",'#');
         System.out.println("(1)" + atkAbility[nbrAtkAbility]);
         System.out.println("(2)" + defAbility[nbrDefAbility]);
         //get the players choice:
         int input = GameDisplay.getUserInput(">> ",2);
-        //deal with both cases
+        //offensive case
         if (input == 1 ){
             GameDisplay.titlePrint("You chose offensive skill :",'.');
             GameDisplay.titlePrint( atkAbility[nbrAtkAbility],'-');
             nbrAtkAbility++;
         }
+        //defensive case
         else{
             GameDisplay.titlePrint("You chose defensive skill :",'.');
             GameDisplay.titlePrint(defAbility[nbrDefAbility],'-');

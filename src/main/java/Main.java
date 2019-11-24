@@ -7,7 +7,7 @@
 
 /**
  *Main class that run the game
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 
 public class Main {

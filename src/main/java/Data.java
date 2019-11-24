@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 /**
  *Class that only permit to save data into text file
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 public class Data {
      

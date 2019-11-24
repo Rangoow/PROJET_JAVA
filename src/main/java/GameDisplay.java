@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *Class that is used to implement all the methods needed for the game display
- * @author ESPARSA NOE
+ * @author ESPARSA NOE  & DUBOIS THOMAS
  */
 public class GameDisplay {
     

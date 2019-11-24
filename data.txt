@@ -33,3 +33,4 @@ Name : Thom'so       XP : 50       Game completed : true
 Name : Moue       XP : 57       Game completed : true
 Name : mOUE       XP : 52       Game completed : false
 Name : Thomas       XP : 54       Game completed : false
+Name : noe       XP : 79       Game completed : true

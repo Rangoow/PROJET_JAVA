@@ -6,7 +6,7 @@
 
 /**
  *Class that permit to create an Enemy
- * @author ESPARSA NOE
+ * @author ESPARSA NOE & DUBOIS THOMAS
  */
 public class Enemy extends Character implements Action {
     
